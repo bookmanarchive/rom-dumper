@@ -40,12 +40,12 @@ function setAddress(addrValue) {
 async function getDataFromAddress(addr) {
 	setAddress(addr);
 	
-	const byteValue = pinValues
-		.reduce((acc,curr, i) => acc + (curr * (1<<i)));
-	
 	const pinValues = await (
 		Promise.all('0,1,2,3,4,5,6,7'.split(',').map(readDataPin))
 	);
+	
+	const byteValue = pinValues
+		.reduce((acc,curr, i) => acc + (curr * (1<<i)));
 	
 	return {
 		pins: pinValues.join(','),
