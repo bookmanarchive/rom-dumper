@@ -3,13 +3,13 @@ const MCP23017 = require('node-mcp23017');
 const mcp2 = new MCP23017({
   address: 0x21,
   device: 1,
-  debug: true
+//  debug: true
 });
 
 const mcp1 = new MCP23017({
   address: 0x20,
   device: 1,
-  debug: true
+//  debug: true
 });
 
 for (var i = 0; i < 8; i++) {
@@ -25,8 +25,7 @@ function readDataPin(i) {
 }
 
 function writeDataPin(i, value) {
-    if(value>0) value = 1;
-
+    console.log(`OUT pin ${i} = ${value}`);
     mcp2.digitalWrite(i, value > 0? mcp2.HIGH : mcp2.LOW);
 }
 
