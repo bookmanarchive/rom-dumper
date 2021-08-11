@@ -27,7 +27,7 @@ function readDataPin(i) {
 }
 
 function writeDataPin(i, value) {
-    console.log(`OUT pin ${i} = ${value}`);
+//    console.log(`OUT pin ${i} = ${value}`);
     mcp2.digitalWrite(i, value? mcp2.HIGH : mcp2.LOW);
 }
 
@@ -58,6 +58,6 @@ async function getDataFromAddress(addr) {
 (async () => {
 	for(let addr = 0; addr < 15; addr++) {
 		const data = await getDataFromAddress(addr);
-		console.log('0x'+addr.toString(16), data.char);
+		console.log('0x'+addr.toString(16), data.byteValue);
 	}
 })();
