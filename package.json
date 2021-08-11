@@ -1,0 +1,9 @@
+{
+  "name": "i2c-prom-dumper",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "node-mcp23017": "^0.0.7"
+  }
+}
