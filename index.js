@@ -1,11 +1,13 @@
 const MCP23017 = require('node-mcp23017');
 
+// Mainly write
 const mcp2 = new MCP23017({
   address: 0x21,
   device: 1,
 //  debug: true
 });
 
+// Mainly read
 const mcp1 = new MCP23017({
   address: 0x20,
   device: 1,
@@ -26,7 +28,7 @@ function readDataPin(i) {
 
 function writeDataPin(i, value) {
     console.log(`OUT pin ${i} = ${value}`);
-    mcp2.digitalWrite(i, value > 0? mcp2.HIGH : mcp2.LOW);
+    mcp2.digitalWrite(i, value? mcp2.HIGH : mcp2.LOW);
 }
 
 function setAddress(addrValue) {
