@@ -51,11 +51,13 @@ async function getDataFromAddress(addr) {
 	return {
 		pins: pinValues.join(','),
 		byteValue,
+		char: String.fromCharCode(byteValue),
 	};
 }
 
 (async () => {
 	for(let addr = 0; addr < 15; addr++) {
-		console.log('0x'+addr.toString(16), await getDataFromAddress(addr));
+		const data = await getDataFromAddress(addr);
+		console.log('0x'+addr.toString(16), data.char);
 	}
 })();
