@@ -31,7 +31,7 @@ function writeDataPin(i, value) {
 }
 
 function setAddress(addrValue) {
-    for(let p = 0; p < 4; b++ ) {
+    for(let p = 0; p < 4; p++ ) {
         const pinValue = (addrValue & (1 << p)) > 0;
 	writeDataPin(p, pinValue);
     }
