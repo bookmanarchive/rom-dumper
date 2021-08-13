@@ -38,9 +38,15 @@ function setAddress(addrValue) {
     }
 }
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function getDataFromAddress(addr) {
 	setAddress(addr);
-	
+
+        await sleep(10);
+
 	const pinValues = await (
 		Promise.all('0,1,2,3,4,5,6,7'.split(',').map(readDataPin))
 	);
@@ -58,6 +64,6 @@ async function getDataFromAddress(addr) {
 (async () => {
 	for(let addr = 0; addr < 15; addr++) {
 		const data = await getDataFromAddress(addr);
-		console.log('0x'+addr.toString(16), data.byteValue);
+		console.log('0x'+addr.toString(16), data.byteValue, data.char);
 	}
 })();
