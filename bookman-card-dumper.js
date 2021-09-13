@@ -122,7 +122,7 @@ const {appendFileSync} = require('fs');
 	writePin('OE',false);
 	writePin('CE',false);
 
-	for (let addr = 0; addr <= (1 << 20); addr++) {
+	for (let addr = 0; addr <= ((1 << 21)-1); addr++) {
 		const data = await getDataFromAddress(addr + offset);
 		
 		// console.log('0x' + (addr + offset).toString(16), data.byteValue, data.char); 
