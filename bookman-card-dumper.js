@@ -45,6 +45,9 @@ const PINMAP = {
 	A20: ['mcp1', 11, DIR.OUT], //
 	A19: ['mcp1', 12, DIR.OUT], //
 	
+	OE: ['mcp1', 13, DIR.OUT],  	//
+	CE: ['mcp1', 14, DIR.OUT],  	//
+	
 	Q0: ['mcp1', 0, DIR.IN],   	//
 	Q1: ['mcp1', 1, DIR.IN],  	//
 	Q2: ['mcp1', 2, DIR.IN],  	//
@@ -53,6 +56,7 @@ const PINMAP = {
 	Q5: ['mcp1', 5, DIR.IN],  	//
 	Q6: ['mcp1', 6, DIR.IN],  	//
 	Q7: ['mcp1', 7, DIR.IN],  	//
+
 };
 
 Object.keys(PINMAP).forEach(k => {
@@ -60,22 +64,21 @@ Object.keys(PINMAP).forEach(k => {
 
 	devices[chip].pinMode(
 		pin,
-		dir === DIR.OUT ? devices[chip].OUTPUT : devices[chip].INPUT 
+		dir === DIR.OUT ? devices[chip].OUTPUT : devices[chip].INPUT_PULLUP 
+		// dir === DIR.OUT ? devices[chip].OUTPUT : devices[chip].INPUT
 	);
 });
 
 function readPin(pinName) {
 	const [chip, pin] = PINMAP[pinName];
 	return new Promise(
-		// TTL logic is active-low
-		// This is CMOS, not TTL
 		resolve => devices[chip].digitalRead(pin, (_p, err, value) => resolve(value ? 1 : 0))
 	);
 }
 
 function writePin(pinName, value) {
 	const [chip, pin] = PINMAP[pinName];
-	devices[chip].digitalWrite(pin, !!value);
+	devices[chip].digitalWrite(pin, value);
 }
 
 function setAddress(addrValue) {
@@ -90,11 +93,14 @@ function sleep(ms) {
 }
 
 async function getDataFromAddress(addr) {
+
 	setAddress(addr);
 
 	const pinValues = await (
 		Promise.all('0,1,2,3,4,5,6,7'.split(',').map(p => readPin('Q' + p)))
 	);
+
+	
 
 	const byteValue = pinValues
 		.reduce((acc, curr, i) => acc + (curr * (1 << i)));
@@ -109,14 +115,21 @@ async function getDataFromAddress(addr) {
 const {appendFileSync} = require('fs');
 
 (async () => {
-	await sleep(1);
-
-	const offset = 0x00;
+	// ROM starts here?
+	// const offset = 0x70d0;
+	const offset = 0x0;
 	
-	for (let addr = 0; addr < (1 << 6); addr++) {
+	writePin('OE',false);
+	writePin('CE',false);
+
+	for (let addr = 0; addr <= (1 << 20); addr++) {
 		const data = await getDataFromAddress(addr + offset);
-		// console.log('0x' + (addr + offset).toString(16)); //, data.byteValue, data.char);
-		console.log('0x' + (addr + offset).toString(16), data.byteValue, data.char);
-		// appendFileSync('dump.bookman.bin', Buffer.from([data.byteValue]));
+		
+		// console.log('0x' + (addr + offset).toString(16), data.byteValue, data.char); 
+		if(addr % 7 === 0) {
+			console.log('0x' + (addr + offset).toString(16));
+		}
+
+		appendFileSync('dump.bookman.bin', Buffer.from([data.byteValue]));
 	}
 })();
