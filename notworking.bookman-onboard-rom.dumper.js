@@ -19,35 +19,34 @@ const DIR = { IN: 0, OUT: 1 };
 const PINMAP = {
 	//// First MCP
 
-	A0: ['mcp2', 8, DIR.OUT],   //
-	A1: ['mcp2', 9, DIR.OUT],   //
-	A2: ['mcp2', 10, DIR.OUT],   //
-	A3: ['mcp2', 11, DIR.OUT],  	//
-	A4: ['mcp2', 12, DIR.OUT],   //
-	A5: ['mcp2', 13, DIR.OUT],  	//
-	A6: ['mcp2', 14, DIR.OUT],  	//
-	A7: ['mcp2', 15, DIR.OUT],   //
+	A0: ['mcp2', 0, DIR.OUT],   //
+	A1: ['mcp2', 1, DIR.OUT],   //
+	A2: ['mcp2', 2, DIR.OUT],   //
+	A3: ['mcp2', 3, DIR.OUT],  	//
+	A4: ['mcp2', 4, DIR.OUT],   //
+	A5: ['mcp2', 5, DIR.OUT],  	//
+	A6: ['mcp2', 6, DIR.OUT],  	//
+	A7: ['mcp2', 7, DIR.OUT],   //
 
-	A12: ['mcp2', 0, DIR.OUT],	//
-	A15: ['mcp2', 1, DIR.OUT],	//
-	A16: ['mcp2', 2, DIR.OUT],	//
-	A18: ['mcp2', 3, DIR.OUT],	//
-	A17: ['mcp2', 4, DIR.OUT],	//
-	A14: ['mcp2', 5, DIR.OUT],	//
-	A13: ['mcp2', 6, DIR.OUT],	//
-	A8: ['mcp2', 7, DIR.OUT],	//
+	A12: ['mcp2', 8, DIR.OUT],	//
+	A15: ['mcp2', 9, DIR.OUT],	//
+	A16: ['mcp2', 10, DIR.OUT],	//
+	A18: ['mcp2', 11, DIR.OUT],	//
+	A17: ['mcp2', 12, DIR.OUT],	//
+	A14: ['mcp2', 13, DIR.OUT],	//
+	A13: ['mcp2', 14, DIR.OUT],	//
+	A8: ['mcp2', 15, DIR.OUT],	//
 
 	//// Second MCP
 
 	A9: ['mcp1', 8, DIR.OUT],   //
 	A11: ['mcp1', 9, DIR.OUT],  //
 	A10: ['mcp1', 10, DIR.OUT],	//
-	A20: ['mcp1', 13, DIR.OUT], //
-	A19: ['mcp1', 14, DIR.OUT], //
+	A20: ['mcp1', 11, DIR.OUT], //
+	A19: ['mcp1', 12, DIR.OUT], //
 	
-	OE: ['mcp1', 11, DIR.OUT],  	//
-	CE: ['mcp1', 12, DIR.OUT],  	//
-	CE2: ['mcp1', 15, DIR.OUT],  	//
+	OE: ['mcp1', 13, DIR.OUT],  	//
+	CE: ['mcp1', 14, DIR.OUT],  	//
 	
 	Q0: ['mcp1', 0, DIR.IN],   	//
 	Q1: ['mcp1', 1, DIR.IN],  	//
@@ -65,8 +64,8 @@ Object.keys(PINMAP).forEach(k => {
 
 	devices[chip].pinMode(
 		pin,
-		//dir === DIR.OUT ? devices[chip].OUTPUT : devices[chip].INPUT_PULLUP 
-		 dir === DIR.OUT ? devices[chip].OUTPUT : devices[chip].INPUT
+		dir === DIR.OUT ? devices[chip].OUTPUT : devices[chip].INPUT_PULLUP 
+		// dir === DIR.OUT ? devices[chip].OUTPUT : devices[chip].INPUT
 	);
 });
 
@@ -93,15 +92,18 @@ function sleep(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-const DATA_PINS = ['Q0','Q1','Q2','Q3','Q4','Q5','Q6','Q7'];
-
 async function getDataFromAddress(addr) {
+	// writePin('OE',true);
+	// writePin('CE',true);
 
-	setAddress(addr);
+	// setAddress(addr);
 
 	const pinValues = await (
-		Promise.all(DATA_PINS.map(readPin))
+		Promise.all('0,1,2,3,4,5,6,7'.split(',').map(p => readPin('Q' + p)))
 	);
+
+	// writePin('OE',false);
+	// writePin('CE',false);
 
 	const byteValue = pinValues
 		.reduce((acc, curr, i) => acc + (curr * (1 << i)));
@@ -118,23 +120,23 @@ const {appendFileSync} = require('fs');
 (async () => {
 	// ROM starts here?
 	// const offset = 0x70d0;
-	const offset = 0x0;
+	const offset = 0x000;
+	
+	writePin('OE',true);
+	writePin('CE',true);
 
 	const MAX_ADDRESS = ((1 << 21)-1);
-	const ADDR = 1<<5;
+	const ADDR = MAX_ADDRESS;// 1<<8;
 
-	writePin('CE',false);	
-	writePin('CE2',true);
-	writePin('OE',false);
-
-	for (let addr = 0; addr <= MAX_ADDRESS; addr++) {
+	for (let addr = 0; addr <= ADDR; addr++) {
 		const data = await getDataFromAddress(addr + offset);
 		
-		// console.log('0x' + (addr + offset).toString(16), data.byteValue, data.char); 
-		if(addr % 7 === 0) {
-			console.log('0x' + (addr + offset).toString(16));
-		}
+		console.log('0x' + (addr + offset).toString(16), data.byteValue, data.char); 
+		
+		// if(addr % 7 === 0) {
+		// 	console.log('0x' + (addr + offset).toString(16));
+		// }
 
-		appendFileSync('dump.bookman.bin', Buffer.from([data.byteValue]));
+		// appendFileSync('dump.bookman.onboard.bin', Buffer.from([data.byteValue]));
 	}
 })();
