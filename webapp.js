@@ -2,7 +2,7 @@ const express = require('express');
 const { createReadStream } = require('fs');
 const app = express();
 
-const { startDump, stopDump, getAddr, clearDump } = require('./bookman-card-dumper');
+const { startDump, stopDump, getAddr, clearDump, reboot } = require('./bookman-card-dumper');
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -46,7 +46,7 @@ app.post('/start-dump', (req, res) => {
 });
 
 app.post('/reboot', (req, res) => {
-    startDump(romDumpFile);
+    reboot();
     res.send('OK');
 });
 
