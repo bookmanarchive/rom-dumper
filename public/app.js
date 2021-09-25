@@ -35,13 +35,13 @@ async function getROMHeader() {
 }
 
 function startROMDump() {
-    await callApi('/start-dump');
+    callApi('/start-dump');
 
     setTimeout(getROMDumpProgress, 3000);
 }
 
 function stopROMDump() {
-    await callApi('/stop-dump');
+    callApi('/stop-dump');
     alert('Stopped.');
 }
 
