@@ -75,7 +75,7 @@ async function getDownloadableROMFiles() {
     let text = await res.text();
 
     document.getElementById('download-links').innerHTML = text.split('\n')
-    .map(f=>`<div><a href="/roms/${f}" target="_blank" download="${f}">${f}</a></div>`);
+    .map(f=>`<div><a href="/roms/${f}" target="_blank" download="${f}">${f}</a></div>`).join('\n');
 }
 
 addEventListener('keypress', ({ which }) => {

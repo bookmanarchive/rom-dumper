@@ -75,7 +75,7 @@ app.post('/get-rom-header', (req, res) => {
     }
 });
 
-app.use('/roms',express.static('.',{extensions:['bin']}));
+app.use('/roms', express.static('.', { extensions: ['bin'] }));
 app.use(express.static('./public'));
 
 app.listen(3000, () => {
