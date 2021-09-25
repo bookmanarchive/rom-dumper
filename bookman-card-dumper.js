@@ -125,7 +125,7 @@ const MAX_ADDRESS = ((1 << 21)-1);
 
 async function startDump(filename, offset = 0x0) {
 	if(isDumping) throw 'Already dumping!';
-
+	console.log('Starting dump of '+filename);
 	isDumping = true;
 	
 	writePin('CE',false);	
@@ -147,10 +147,12 @@ async function startDump(filename, offset = 0x0) {
 }
 
 function clearDump(filename) {
+	console.log('Clearing dump '+filename);
 	unlinkSync(filename);
 }
 
 function stopDump() {
+	console.log('Stopping dump of '+filename);
 	isDumping = false;
 }
 

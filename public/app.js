@@ -34,6 +34,17 @@ async function getROMHeader() {
     document.getElementById('romheader').value = text;
 }
 
+function startROMDump() {
+    await callApi('/start-dump');
+
+    setTimeout(getROMDumpProgress, 3000);
+}
+
+function stopROMDump() {
+    await callApi('/stop-dump');
+    alert('Stopped.');
+}
+
 async function getROMDumpProgress() {
     const res = await callApi('/get-next-dump-addr');
     const text = await res.text();
