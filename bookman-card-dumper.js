@@ -164,6 +164,7 @@ function reboot() {
 }
 
 module.exports = {
+	reboot,
 	startDump,
 	stopDump,
 	clearDump,
