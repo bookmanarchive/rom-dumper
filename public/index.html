@@ -1,0 +1,22 @@
+<html>
+<script src="app.js"></script>
+
+<fieldset>
+    <legend>ROM Dump Actions</legend>
+    <button onclick="setROMName()">Set ROM (n)ame</button>
+    <button onclick="getROMHeader()">Get ROM (h)eader</button>
+    <button onclick="startROMDump()">Start dump</button>
+    <button onclick="stopROMDump()">Stop dump</button>
+    <button onclick="getROMDumpProgress()">Get dump (p)rogress</button>
+</fieldset>
+
+<fieldset>
+    <legend>Status</legend>
+    <h4>ROM Header</h4>
+    <textarea id="romheader" readonly cols="32"></textarea>
+    <h4>ROM Dump Progress</h4>
+    <progress max="100" value="0" id="progress"></progress>
+    <span id="bytes">0</span> bytes dumped.
+</fieldset>
+
+</html>

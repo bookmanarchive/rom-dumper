@@ -113,28 +113,50 @@ async function getDataFromAddress(addr) {
 	};
 }
 
-const {appendFileSync} = require('fs');
+////////
 
-(async () => {
-	// ROM starts here?
-	// const offset = 0x70d0;
-	const offset = 0x0;
+const {appendFileSync, unlinkSync} = require('fs');
+const {exec} = require('child_process');
 
-	const MAX_ADDRESS = ((1 << 21)-1);
-	const ADDR = 1<<5;
+let addr = 0;
+let isDumping = false;
 
+const MAX_ADDRESS = ((1 << 21)-1);
+
+async function startDump(filename, offset = 0x0) {
+	if(isDumping) throw 'Already dumping!';
+
+	isDumping = true;
+	
 	writePin('CE',false);	
 	writePin('CE2',true);
 	writePin('OE',false);
-
-	for (let addr = 0; addr <= MAX_ADDRESS; addr++) {
+	
+	for (addr = 0; addr <= MAX_ADDRESS; addr++) {
+		if(!isDumping) break;
+		
 		const data = await getDataFromAddress(addr + offset);
 		
-		// console.log('0x' + (addr + offset).toString(16), data.byteValue, data.char); 
-		if(addr % 7 === 0) {
-			console.log('0x' + (addr + offset).toString(16));
-		}
-
-		appendFileSync('dump.bookman.bin', Buffer.from([data.byteValue]));
+		appendFileSync(filename, Buffer.from([data.byteValue]));
 	}
-})();
+	
+	isDumping = false;
+
+	console.log(`Dump of ${filename} completed! Now rebooting!`);
+	exec('sudo reboot now');
+}
+
+function clearDump(filename) {
+	unlinkSync(filename);
+}
+
+function stopDump() {
+	isDumping = false;
+}
+
+module.exports = {
+	startDump,
+	stopDump,
+	clearDump,
+	getAddr: ()=> addr
+};

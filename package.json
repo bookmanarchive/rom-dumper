@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "express": "^4.17.1",
     "node-mcp23017": "^0.0.7"
   }
 }
