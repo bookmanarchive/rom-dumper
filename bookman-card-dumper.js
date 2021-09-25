@@ -133,7 +133,9 @@ async function startDump(filename, offset = 0x0) {
 	writePin('OE', false);
 
 	for (addr = 0; addr <= MAX_ADDRESS; addr++) {
-		if (!isDumping) break;
+		if (!isDumping) {
+			return;
+		}
 
 		const data = await getDataFromAddress(addr + offset);
 
