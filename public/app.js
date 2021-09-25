@@ -58,8 +58,11 @@ function reboot() {
     }
 }
 
-function deleteROMDump(name) {
-    callApi('/delete-dump', { name });
+async function deleteROMDump(name) {
+    if(confirm('Delete '+name+'?')) {
+        await callApi('/delete-dump', { name });
+        getDownloadableROMFiles();
+    }
 }
 
 function getHumanFileSize(b) {
@@ -88,7 +91,7 @@ async function getDownloadableROMFiles() {
     let text = await res.text();
 
     document.getElementById('download-links').innerHTML = text.split('\n')
-        .map(f => `<div><a href="/roms/${f}" target="_blank" download="${f}">${f}</a> <button onclick="deleteROMDump('${f}')">Delete</button></div>`).join('\n');
+        .map(f => `<div style="margin-bottom:.5em"><button onclick="deleteROMDump('${f}')">Delete</button> - <a href="/roms/${f}" target="_blank" download="${f}">${f}</a></div>`).join('\n');
 }
 
 addEventListener('keypress', ({ which }) => {
