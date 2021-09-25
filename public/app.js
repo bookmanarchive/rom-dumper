@@ -38,7 +38,7 @@ let progressUpdateInterval;
 let hasStarted = false;
 
 function startROMDump() {
-    document.getElementById('progress').classList.add('started');
+    document.getElementById('progress').classList.remove('stopped');
     callApi('/start-dump');
 
     clearInterval(progressUpdateInterval);
