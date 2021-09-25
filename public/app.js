@@ -112,7 +112,10 @@ async function getDownloadableROMFiles() {
 
 addEventListener('keypress', ({ which }) => {
     switch (which) {
-        case 32: // Start / Stop
+        case 102: // f
+            getDownloadableROMFiles();
+            break;
+        case 32: // spacebar
             toggleStartStopDump();
             break;
         case 104: // h

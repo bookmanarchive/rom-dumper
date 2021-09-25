@@ -45,7 +45,7 @@
             <fieldset>
                 <legend>Status</legend>
                 <h4>ROM Header</h4>
-                <textarea id="romheader" readonly cols="32" rows="4"></textarea>
+                <textarea id="romheader" readonly cols="32" rows="10"></textarea>
                 <h4>ROM Dump Progress</h4>
                 <progress class="stopped" max="100" value="0" id="progress"></progress>
                 <span id="bytes">0 bytes dumped.</span>
@@ -57,9 +57,10 @@
                 <button onclick="setROMName()">Set ROM (n)ame</button>
                 <button onclick="getROMHeader()">Get ROM (h)eader</button>
                 <button onclick="getROMDumpProgress()">Get dump (p)rogress</button>
-                /
                 <button onclick="toggleStartStopDump()" id="toggleStartStopDumpButton">START dump (SPACEBAR)</button>
-                /
+            </fieldset>
+            <fieldset>
+                <legend>System Actions</legend>
                 <button onclick="reboot()">REBOOT</button>
             </fieldset>
             <fieldset>
