@@ -35,18 +35,34 @@ async function getROMHeader() {
 }
 
 let progressUpdateInterval;
+let hasStarted = false;
 
 function startROMDump() {
+    document.getElementById('progress').classList.add('started');
     callApi('/start-dump');
 
     clearInterval(progressUpdateInterval);
     progressUpdateInterval = setInterval(getROMDumpProgress, 3000);
+    hasStarted = true;
+
+    document.getElementById('toggleStartStopDumpButton').innerHTML = `STOP dump (SPACEBAR)`;
 }
 
 function stopROMDump() {
+    document.getElementById('progress').classList.add('stopped');
     callApi('/stop-dump');
-    alert('Stopped.');
     clearInterval(progressUpdateInterval);
+    hasStarted = false;
+
+    document.getElementById('toggleStartStopDumpButton').innerHTML = `START dump (SPACEBAR)`;
+}
+
+function toggleStartStopDump() {
+    if(hasStarted) { 
+        stopROMDump();
+    } else {
+        startROMDump();
+    }
 }
 
 function reboot() {
@@ -96,6 +112,9 @@ async function getDownloadableROMFiles() {
 
 addEventListener('keypress', ({ which }) => {
     switch (which) {
+        case 32: // Start / Stop
+            toggleStartStopDump();
+            break;
         case 104: // h
             getROMHeader();
             break;
