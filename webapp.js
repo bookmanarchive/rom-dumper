@@ -30,7 +30,7 @@ app.post('/stop-dump', (req, res) => {
 app.post('/delete-dump', (req, res) => {
     const { name } = req.body;
     if (name && /\.bin$/.test(name)) {
-        clearDump(romDumpFile);
+        clearDump(name);
     }
 
     res.send('OK');
