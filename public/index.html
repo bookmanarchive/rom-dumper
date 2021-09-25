@@ -16,7 +16,13 @@
     <textarea id="romheader" readonly cols="32"></textarea>
     <h4>ROM Dump Progress</h4>
     <progress max="100" value="0" id="progress"></progress>
-    <span id="bytes">0</span> bytes dumped.
+    <span id="bytes">0 bytes dumped.</span>
+</fieldset>
+
+<fieldset>
+    <legend>Files <button onclick="getDownloadableROMFiles()">Refresh</button></legend>
+    <div id="download-links">
+    </div>
 </fieldset>
 
 </html>

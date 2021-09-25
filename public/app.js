@@ -49,16 +49,33 @@ function stopROMDump() {
     clearInterval(progressUpdateInterval);
 }
 
+function getHumanFileSize(b) {
+    const i = ~~(Math.log2(b)/10); 
+    return (b/Math.pow(1024,i)).toFixed(2) + ("KMGTPEZY"[i-1]||"") + "B";
+}
+
 async function getROMDumpProgress() {
-    const res = await callApi('/get-next-dump-addr');
-    const text = await res.text();
+    let res = await callApi('/get-next-dump-addr');
+    let text = await res.text();
 
     const MAX_ADDRESS = ((1 << 21) - 1);
     const addr = parseInt(text, 10);
 
     const progress = Math.round((addr / MAX_ADDRESS) * 100);
     document.getElementById('progress').value = progress;
-    document.getElementById('bytes').innerHTML = addr;
+    document.getElementById('bytes').innerHTML = getHumanFileSize(addr) + ' dumped.';
+
+    res = await callApi('/get-rom-name');
+    text = await res.text();
+    prevROMName = text;
+}
+
+async function getDownloadableROMFiles() {
+    let res = await callApi('/get-downloadable-rom-files');
+    let text = await res.text();
+
+    document.getElementById('download-links').innerHTML = text.split('\n')
+    .map(f=>`<div><a href="/roms/${f}" target="_blank" download="${f}">${f}</a></div>`);
 }
 
 addEventListener('keypress', ({ which }) => {
