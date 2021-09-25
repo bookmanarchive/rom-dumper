@@ -23,11 +23,16 @@ app.post('/get-next-dump-addr', (req, res) => {
 });
 
 app.post('/stop-dump', (req, res) => {
-    stopDump();
+    stopDump(romDumpFile);
     res.send('OK');
 });
 
 app.post('/start-dump', (req, res) => {
+    startDump(romDumpFile);
+    res.send('OK');
+});
+
+app.post('/reboot', (req, res) => {
     startDump(romDumpFile);
     res.send('OK');
 });

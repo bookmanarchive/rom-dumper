@@ -34,15 +34,19 @@ async function getROMHeader() {
     document.getElementById('romheader').value = text;
 }
 
+let progressUpdateInterval;
+
 function startROMDump() {
     callApi('/start-dump');
 
-    setTimeout(getROMDumpProgress, 3000);
+    clearInterval(progressUpdateInterval);
+    progressUpdateInterval = setInterval(getROMDumpProgress, 3000);
 }
 
 function stopROMDump() {
     callApi('/stop-dump');
     alert('Stopped.');
+    clearInterval(progressUpdateInterval);
 }
 
 async function getROMDumpProgress() {

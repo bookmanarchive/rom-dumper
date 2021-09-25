@@ -44,11 +44,11 @@ const PINMAP = {
 	A10: ['mcp1', 10, DIR.OUT],	//
 	A20: ['mcp1', 13, DIR.OUT], //
 	A19: ['mcp1', 14, DIR.OUT], //
-	
+
 	OE: ['mcp1', 11, DIR.OUT],  	//
 	CE: ['mcp1', 12, DIR.OUT],  	//
 	CE2: ['mcp1', 15, DIR.OUT],  	//
-	
+
 	Q0: ['mcp1', 0, DIR.IN],   	//
 	Q1: ['mcp1', 1, DIR.IN],  	//
 	Q2: ['mcp1', 2, DIR.IN],  	//
@@ -66,7 +66,7 @@ Object.keys(PINMAP).forEach(k => {
 	devices[chip].pinMode(
 		pin,
 		//dir === DIR.OUT ? devices[chip].OUTPUT : devices[chip].INPUT_PULLUP 
-		 dir === DIR.OUT ? devices[chip].OUTPUT : devices[chip].INPUT
+		dir === DIR.OUT ? devices[chip].OUTPUT : devices[chip].INPUT
 	);
 });
 
@@ -93,7 +93,7 @@ function sleep(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-const DATA_PINS = ['Q0','Q1','Q2','Q3','Q4','Q5','Q6','Q7'];
+const DATA_PINS = ['Q0', 'Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7'];
 
 async function getDataFromAddress(addr) {
 
@@ -115,50 +115,55 @@ async function getDataFromAddress(addr) {
 
 ////////
 
-const {appendFileSync, unlinkSync} = require('fs');
-const {exec} = require('child_process');
+const { appendFileSync, unlinkSync } = require('fs');
+const { exec } = require('child_process');
 
 let addr = 0;
 let isDumping = false;
 
-const MAX_ADDRESS = ((1 << 21)-1);
+const MAX_ADDRESS = ((1 << 21) - 1);
 
 async function startDump(filename, offset = 0x0) {
-	if(isDumping) throw 'Already dumping!';
-	console.log('Starting dump of '+filename);
+	if (isDumping) throw 'Already dumping!';
+	console.log('Starting dump of ' + filename);
 	isDumping = true;
-	
-	writePin('CE',false);	
-	writePin('CE2',true);
-	writePin('OE',false);
-	
+
+	writePin('CE', false);
+	writePin('CE2', true);
+	writePin('OE', false);
+
 	for (addr = 0; addr <= MAX_ADDRESS; addr++) {
-		if(!isDumping) break;
-		
+		if (!isDumping) break;
+
 		const data = await getDataFromAddress(addr + offset);
-		
+
 		appendFileSync(filename, Buffer.from([data.byteValue]));
 	}
-	
+
 	isDumping = false;
 
-	console.log(`Dump of ${filename} completed! Now rebooting!`);
-	exec('sudo reboot now');
+	console.log(`Dump of ${filename} completed!`);
+	reboot();
 }
 
 function clearDump(filename) {
-	console.log('Clearing dump '+filename);
+	console.log('Clearing dump ' + filename);
 	unlinkSync(filename);
 }
 
-function stopDump() {
-	console.log('Stopping dump of '+filename);
+function stopDump(filename) {
+	console.log('Stopping dump of ' + filename);
 	isDumping = false;
+}
+
+function reboot() {
+	console.log('Now rebooting!');
+	exec('sudo reboot now');
 }
 
 module.exports = {
 	startDump,
 	stopDump,
 	clearDump,
-	getAddr: ()=> addr
+	getAddr: () => addr
 };
