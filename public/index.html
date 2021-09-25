@@ -4,8 +4,16 @@
         margin-top: .5em;
     }
 
+    #romheader {
+        resize: none;
+    }
+
     progress {
         appearance: none;
+        height: 30vh;
+        transform: rotate(90deg);
+        display: block;
+        width: 30vh;
     }
 
     progress.stopped::-moz-progress-bar {
@@ -15,6 +23,7 @@
     progress.stopped::-webkit-progress-bar {
         background-color: #880000;
     }
+
     progress.stopped::-webkit-progress-value {
         background: red;
     }
@@ -26,30 +35,35 @@
 </style>
 <script src="app.js"></script>
 
-<fieldset>
-    <legend>ROM Dump Actions</legend>
-    <button onclick="setROMName()">Set ROM (n)ame</button>
-    <button onclick="getROMHeader()">Get ROM (h)eader</button>
-    <button onclick="getROMDumpProgress()">Get dump (p)rogress</button>
-    /
-    <button onclick="toggleStartStopDump()" id="toggleStartStopDumpButton">START dump (SPACEBAR)</button>
-    /
-    <button onclick="reboot()">REBOOT</button>
-</fieldset>
-
-<fieldset>
-    <legend>Status</legend>
-    <h4>ROM Header</h4>
-    <textarea id="romheader" readonly cols="32"></textarea>
-    <h4>ROM Dump Progress</h4>
-    <progress style="width:100%" class="stopped" max="100" value="0" id="progress"></progress>
-    <span id="bytes">0 bytes dumped.</span>
-</fieldset>
-
-<fieldset>
-    <legend>Files <button onclick="getDownloadableROMFiles()">Refresh</button></legend>
-    <div id="download-links">
-    </div>
-</fieldset>
+<table width="100%">
+    <tr>
+        <td width="50%">
+            <fieldset>
+                <legend>Status</legend>
+                <h4>ROM Header</h4>
+                <textarea id="romheader" readonly cols="32" rows="4"></textarea>
+                <h4>ROM Dump Progress</h4>
+                <progress style="width:100%" class="stopped" max="100" value="0" id="progress"></progress>
+                <span id="bytes">0 bytes dumped.</span>
+            </fieldset>
+        </td>
+        <td width="50%">
+            <fieldset>
+                <legend>ROM Dump Actions</legend>
+                <button onclick="setROMName()">Set ROM (n)ame</button>
+                <button onclick="getROMHeader()">Get ROM (h)eader</button>
+                <button onclick="getROMDumpProgress()">Get dump (p)rogress</button>
+                /
+                <button onclick="toggleStartStopDump()" id="toggleStartStopDumpButton">START dump (SPACEBAR)</button>
+                /
+                <button onclick="reboot()">REBOOT</button>
+            </fieldset>
+            <fieldset>
+                <legend>Files <button onclick="getDownloadableROMFiles()">Refresh (f)</button></legend>
+                <div id="download-links"></div>
+            </fieldset>
+        </td>
+    </tr>
+</table>
 
 </html>
