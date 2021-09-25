@@ -1,6 +1,8 @@
 <html>
 <style>
-fieldset { margin-top: .5em;}
+    fieldset {
+        margin-top: .5em;
+    }
 </style>
 <script src="app.js"></script>
 
@@ -8,9 +10,12 @@ fieldset { margin-top: .5em;}
     <legend>ROM Dump Actions</legend>
     <button onclick="setROMName()">Set ROM (n)ame</button>
     <button onclick="getROMHeader()">Get ROM (h)eader</button>
+    <button onclick="getROMDumpProgress()">Get dump (p)rogress</button>
+    /
     <button onclick="startROMDump()">Start dump</button>
     <button onclick="stopROMDump()">Stop dump</button>
-    <button onclick="getROMDumpProgress()">Get dump (p)rogress</button>
+    /
+    <button onclick="reboot()">REBOOT</button>
 </fieldset>
 
 <fieldset>

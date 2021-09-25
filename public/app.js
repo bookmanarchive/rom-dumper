@@ -50,10 +50,12 @@ function stopROMDump() {
 }
 
 function reboot() {
-    callApi('/reboot');
-    alert('Server rebooted');
-    // Auto refresh after 30s
-    setTimeout(()=>location.reload(), 30e3);
+    if(confirm('Confirm system reboot?')) {
+        callApi('/reboot');
+        alert('Server rebooted');
+        // Auto refresh after 30s
+        setTimeout(()=>location.reload(), 30e3);
+    }
 }
 
 function deleteROMDump(name) {
