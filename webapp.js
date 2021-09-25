@@ -19,17 +19,17 @@ app.post('/set-rom-name', (req, res) => {
 });
 
 app.post('/get-next-dump-addr', (req, res) => {
-    res.send(getAddr());
+    res.send(getAddr().toString());
 });
 
 app.post('/stop-dump', (req, res) => {
     stopDump();
-    res.send(1);
+    res.send('OK');
 });
 
 app.post('/start-dump', (req, res) => {
     startDump(romDumpFile);
-    res.send(1);
+    res.send('OK');
 });
 
 app.post('/get-rom-header', (req, res) => {
