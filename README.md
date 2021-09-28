@@ -28,3 +28,7 @@ p           Get current dump progress
 h           Get first 0x100 bytes of the dump (expected ROM header)
 ```
 
+## Known issues
+- i2c peripherals / reads from MCP get corrupted sometimes
+    - unknown cause (possibly time-stretching? possibly power supply issue?)
+- Unable to handle 4MB / 2 IC ROM cards yet
