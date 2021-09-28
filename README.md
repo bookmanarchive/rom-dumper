@@ -1,5 +1,12 @@
 # i2c-prom-dumper
 
+![Screen Shot 2021-09-26 at 9.12.14 PM](Screen Shot 2021-09-26 at 9.12.14 PM.png)
+
+![Screen Shot 2021-09-25 at 5.36.35 PM](Screen Shot 2021-09-25 at 5.36.35 PM.png)
+
+
+## Instructions
+
 ```
 # Start process
 pm2 start
@@ -20,3 +27,4 @@ q           Get the filename
 p           Get current dump progress
 h           Get first 0x100 bytes of the dump (expected ROM header)
 ```
+
