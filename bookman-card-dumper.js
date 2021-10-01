@@ -45,7 +45,9 @@ const PINMAP = {
 	A20: ['mcp1', 13, DIR.OUT], //
 	A19: ['mcp1', 14, DIR.OUT], //
 
-	OE: ['mcp1', 11, DIR.OUT],  	//
+// OE is always grounded!
+
+	A8_: ['mcp1', 11, DIR.OUT],  	// possible A8 as well!
 	CE: ['mcp1', 12, DIR.OUT],  	//
 	CE2: ['mcp1', 15, DIR.OUT],  	//
 
@@ -85,6 +87,9 @@ function writePin(pinName, value) {
 function setAddress(addrValue) {
 	for (let p = 0; p <= 20; p++) {
 		const pinValue = (addrValue & (1 << p)) > 0;
+		if(p === 8) {
+			writePin('A' + p + '_', pinValue);
+		}
 		writePin('A' + p, pinValue);
 	}
 }
@@ -130,7 +135,6 @@ async function startDump(filename, offset = 0x0) {
 
 	writePin('CE', false);
 	writePin('CE2', true);
-	writePin('OE', false);
 
 	for (addr = 0; addr <= MAX_ADDRESS; addr++) {
 		if (!isDumping) {
