@@ -74,6 +74,15 @@ function reboot() {
     }
 }
 
+function shutdown() {
+    if(confirm('Confirm system shutdown?')) {
+        callApi('/shutdown');
+        alert('Server shutdown signal sent');
+        // Auto refresh after 20s
+        setTimeout(()=>location.reload(), 20e3);
+    }
+}
+
 async function deleteROMDump(name) {
     if(confirm('Delete '+name+'?')) {
         await callApi('/delete-dump', { name });

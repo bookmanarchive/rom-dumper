@@ -167,8 +167,14 @@ function reboot() {
 	exec('sudo reboot now');
 }
 
+function shutdown() {
+	console.log('Now rebooting!');
+	exec('sudo shutdown now');
+}
+
 module.exports = {
 	reboot,
+	shutdown,
 	startDump,
 	stopDump,
 	clearDump,
