@@ -40,7 +40,7 @@ let hasStarted = false;
 let selectedChip = 1;
 
 function startROMDump() {
-    selectedChip = parseInt(document.querySelector(`[name="chip-select"]:checked`).value, 10);
+    selectedChip = parseInt(document.querySelector(`[name="chip"]:checked`).value, 10);
 
     document.getElementById('progress').classList.remove('stopped');
     callApi('/start-dump', { deviceROM: selectedChip });
