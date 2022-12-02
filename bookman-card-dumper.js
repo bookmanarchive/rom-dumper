@@ -1,112 +1,74 @@
 const MCP23017 = require('node-mcp23017');
 
+// MCP devices from right to left (physically)
 const devices = {
-	// On ribbon cable
-	mcp2: new MCP23017({
-		address: 0x21,
-		device: 1,
-	}),
-
-	// Closest to PI
-	mcp1: new MCP23017({
-		address: 0x20,
-		device: 1,
-	})
+	mcp1: new MCP23017({ address: 0x20, device: 1 }),
+	mcp2: new MCP23017({ address: 0x21, device: 1 }),
+	mcp3: new MCP23017({ address: 0x22, device: 1 }),
 };
 
-const DIR = { IN: 0, OUT: 1 };
+const { ROMCARD_TO_MCP, ROMCARD_FUNC_TO_PIN, SIGNAL_DIRECTION } = require('./pinmap.romcardbreakout');
 
-const PINMAP = {
-	//// First MCP
+// Setup signal directions and which device is handling what signals
+(function setupDevices() {
+	for (let romcard_pin = 1; romcard_pin <= 38; k++) {
+		const [chip, pin] = ROMCARD_TO_MCP['pin' + k];
 
-	A0: ['mcp2', 8, DIR.OUT],   //
-	A1: ['mcp2', 9, DIR.OUT],   //
-	A2: ['mcp2', 10, DIR.OUT],   //
-	A3: ['mcp2', 11, DIR.OUT],  	//
-	A4: ['mcp2', 12, DIR.OUT],   //
-	A5: ['mcp2', 13, DIR.OUT],  	//
-	A6: ['mcp2', 14, DIR.OUT],  	//
-	A7: ['mcp2', 15, DIR.OUT],   //
+		const dir = (Object.values(ROMCARD_FUNC_TO_PIN)
+			.find(([_romcard_pin]) => _romcard_pin == romcard_pin)
+		)[1];
 
-	A12: ['mcp2', 0, DIR.OUT],	//
-	A15: ['mcp2', 1, DIR.OUT],	//
-	A16: ['mcp2', 2, DIR.OUT],	//
-	A18: ['mcp2', 3, DIR.OUT],	//
-	A17: ['mcp2', 4, DIR.OUT],	//
-	A14: ['mcp2', 5, DIR.OUT],	//
-	A13: ['mcp2', 6, DIR.OUT],	//
-	A8: ['mcp2', 7, DIR.OUT],	//
+		devices[chip].pinMode(
+			pin,
+			dir === SIGNAL_DIRECTION.OUT ? devices[chip].OUTPUT : devices[chip].INPUT
+		);
+	}
+})();
 
-	//// Second MCP
+function readPin(pinFuncName) {
+	const romcard_pin = ROMCARD_FUNC_TO_PIN[pinFuncName][0];
+	const [device, mcp_pin] = ROMCARD_TO_MCP['PIN' + romcard_pin]
 
-	A9: ['mcp1', 8, DIR.OUT],   //
-	A11: ['mcp1', 9, DIR.OUT],  //
-	A10: ['mcp1', 10, DIR.OUT],	//
-	A20: ['mcp1', 13, DIR.OUT], //
-	A19: ['mcp1', 14, DIR.OUT], //
-
-// OE is always grounded!
-
-	A8_: ['mcp1', 11, DIR.OUT],  	// possible A8 as well!
-	CE: ['mcp1', 12, DIR.OUT],  	//
-	CE2: ['mcp1', 15, DIR.OUT],  	//
-
-	Q0: ['mcp1', 0, DIR.IN],   	//
-	Q1: ['mcp1', 1, DIR.IN],  	//
-	Q2: ['mcp1', 2, DIR.IN],  	//
-	Q3: ['mcp1', 3, DIR.IN],  	//
-	Q4: ['mcp1', 4, DIR.IN],   	//
-	Q5: ['mcp1', 5, DIR.IN],  	//
-	Q6: ['mcp1', 6, DIR.IN],  	//
-	Q7: ['mcp1', 7, DIR.IN],  	//
-
-};
-
-Object.keys(PINMAP).forEach(k => {
-	const [chip, pin, dir] = PINMAP[k];
-
-	devices[chip].pinMode(
-		pin,
-		//dir === DIR.OUT ? devices[chip].OUTPUT : devices[chip].INPUT_PULLUP 
-		dir === DIR.OUT ? devices[chip].OUTPUT : devices[chip].INPUT
-	);
-});
-
-function readPin(pinName) {
-	const [chip, pin] = PINMAP[pinName];
 	return new Promise(
-		resolve => devices[chip].digitalRead(pin, (_p, err, value) => resolve(value ? 1 : 0))
+		resolve => devices[device].digitalRead(mcp_pin, (_p, err, value) => resolve(value ? 1 : 0))
 	);
 }
 
-function writePin(pinName, value) {
-	const [chip, pin] = PINMAP[pinName];
-	devices[chip].digitalWrite(pin, value);
+function writePin(pinFuncName, value) {
+	const romcard_pin = ROMCARD_FUNC_TO_PIN[pinFuncName][0];
+	const [device, mcp_pin] = ROMCARD_TO_MCP['PIN' + romcard_pin]
+
+	devices[device].digitalWrite(mcp_pin, value);
 }
 
 function setAddress(addrValue) {
-	for (let p = 0; p <= 20; p++) {
-		const pinValue = (addrValue & (1 << p)) > 0;
-		if(p === 8) {
-			writePin('A' + p + '_', pinValue);
-		}
+	// 21 bits = 2,097,152 max addressable bytes per ROM chip
+	for (let p = -1; p <= 19; p++) {
+		const pinValue = addrValue & (1 << (p + 1));
+
 		writePin('A' + p, pinValue);
 	}
 }
 
-function sleep(ms) {
-	return new Promise(resolve => setTimeout(resolve, ms));
-}
+const DATA_PINS = ['DQ0', 'DQ1', 'DQ2', 'DQ3', 'DQ4', 'DQ5', 'DQ6', 'DQ7'];
 
-const DATA_PINS = ['Q0', 'Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7'];
-
-async function getDataFromAddress(addr) {
-
+async function getDataFromAddress(addr, deviceROM = 1) {
 	setAddress(addr);
 
+	writePin('CE#_U1', deviceROM & 1 ? 0 : 1); // Invert due to #
+	writePin('CE#_U2', deviceROM & 2 ? 0 : 1);
+	
+	writePin('OE#', 0); // Enable output
+	
 	const pinValues = await (
 		Promise.all(DATA_PINS.map(readPin))
-	);
+		);
+
+	writePin('CE#_U1', 1);
+	writePin('CE#_U2', 1);
+
+	writePin('OE#', 1); // Disable output
+
 
 	const byteValue = pinValues
 		.reduce((acc, curr, i) => acc + (curr * (1 << i)));
@@ -128,20 +90,22 @@ let isDumping = false;
 
 const MAX_ADDRESS = ((1 << 21) - 1);
 
-async function startDump(filename, offset = 0x0) {
+async function startDump(filename, deviceROM = 1, offset = 0x0) {
 	if (isDumping) throw 'Already dumping!';
-	console.log('Starting dump of ' + filename);
-	isDumping = true;
 
-	writePin('CE', false);
-	writePin('CE2', true);
+	writePin('BYTE#', 0);	// Enable sinle BYTE mode (DQ0 ... DQ7 only output pins)
+	writePin('WE#', 1);		// Disable Write Enable mode
+
+	console.log('Starting dump of ' + filename);
+
+	isDumping = true;
 
 	for (addr = 0; addr <= MAX_ADDRESS; addr++) {
 		if (!isDumping) {
 			return;
 		}
 
-		const data = await getDataFromAddress(addr + offset);
+		const data = await getDataFromAddress(addr + offset, deviceROM);
 
 		appendFileSync(filename, Buffer.from([data.byteValue]));
 	}
@@ -149,7 +113,7 @@ async function startDump(filename, offset = 0x0) {
 	isDumping = false;
 
 	console.log(`Dump of ${filename} completed!`);
-	reboot();
+	// reboot();
 }
 
 function clearDump(filename) {
