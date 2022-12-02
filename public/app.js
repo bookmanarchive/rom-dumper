@@ -37,9 +37,13 @@ async function getROMHeader() {
 let progressUpdateInterval;
 let hasStarted = false;
 
+let selectedChip = 1;
+
 function startROMDump() {
+    selectedChip = parseInt(document.querySelector(`[name="chip-select"]:checked`).value, 10);
+
     document.getElementById('progress').classList.remove('stopped');
-    callApi('/start-dump');
+    callApi('/start-dump', { deviceROM: selectedChip });
 
     clearInterval(progressUpdateInterval);
     progressUpdateInterval = setInterval(getROMDumpProgress, 3000);
@@ -58,7 +62,7 @@ function stopROMDump() {
 }
 
 function toggleStartStopDump() {
-    if(hasStarted) { 
+    if (hasStarted) {
         stopROMDump();
     } else {
         startROMDump();
@@ -66,25 +70,25 @@ function toggleStartStopDump() {
 }
 
 function reboot() {
-    if(confirm('Confirm system reboot?')) {
+    if (confirm('Confirm system reboot?')) {
         callApi('/reboot');
         alert('Server rebooted');
         // Auto refresh after 30s
-        setTimeout(()=>location.reload(), 30e3);
+        setTimeout(() => location.reload(), 30e3);
     }
 }
 
 function shutdown() {
-    if(confirm('Confirm system shutdown?')) {
+    if (confirm('Confirm system shutdown?')) {
         callApi('/shutdown');
         alert('Server shutdown signal sent');
         // Auto refresh after 20s
-        setTimeout(()=>location.reload(), 20e3);
+        setTimeout(() => location.reload(), 20e3);
     }
 }
 
 async function deleteROMDump(name) {
-    if(confirm('Delete '+name+'?')) {
+    if (confirm('Delete ' + name + '?')) {
         await callApi('/delete-dump', { name });
         getDownloadableROMFiles();
     }
