@@ -37,6 +37,7 @@ Software prerequisities:
 - PM2 process manager
 - Cloned a copy of this repo
 - Connected to your local Wifi
+- [Set I2C baud rate to fast mode](https://www.raspberrypi-spy.co.uk/2018/02/change-raspberry-pi-i2c-bus-speed/)
 
 Running:
 
