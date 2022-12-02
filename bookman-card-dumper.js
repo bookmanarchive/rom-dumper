@@ -40,7 +40,7 @@ function writePin(pinFuncName, value) {
 	const romcard_pin = ROMCARD_FUNC_TO_PIN[pinFuncName][0];
 	const [device, mcp_pin] = ROMCARD_TO_MCP['PIN' + romcard_pin]
 
-	devices[device].digitalWrite(mcp_pin, value);
+	devices[device].digitalWrite(mcp_pin, value? 1 : 0);
 }
 
 function setAddress(addrValue) {
@@ -48,7 +48,7 @@ function setAddress(addrValue) {
 	for (let p = -1; p <= 19; p++) {
 		const pinValue = addrValue & (1 << (p + 1));
 
-		writePin('A' + p, pinValue ? 1 : 0);
+		writePin('A' + p, pinValue);
 	}
 }
 
