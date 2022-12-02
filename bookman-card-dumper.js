@@ -22,7 +22,7 @@ const { ROMCARD_TO_MCP, ROMCARD_FUNC_TO_PIN, SIGNAL_DIRECTION } = require('./pin
 
 		devices[chip].pinMode(
 			pin,
-			dir === SIGNAL_DIRECTION.OUT ? devices[chip].OUTPUT : devices[chip].INPUT_PULLUP
+			dir === SIGNAL_DIRECTION.OUT ? devices[chip].OUTPUT : devices[chip].INPUT
 		);
 	}
 })();
