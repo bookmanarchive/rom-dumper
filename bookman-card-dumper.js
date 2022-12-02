@@ -6,7 +6,7 @@ const MCP23017 = require('node-mcp23017');
 const devices = {
 	mcp1: new MCP23017({ address: 0x20, device: 1 }),
 	mcp2: new MCP23017({ address: 0x21, device: 1 }),
-	mcp3: new MCP23017({ address: 0x23, device: 1 }), 
+	mcp3: new MCP23017({ address: 0x23, device: 1 }),
 };
 
 const { ROMCARD_TO_MCP, ROMCARD_FUNC_TO_PIN, SIGNAL_DIRECTION } = require('./pinmap.romcardbreakout');
@@ -40,7 +40,7 @@ function writePin(pinFuncName, value) {
 	const romcard_pin = ROMCARD_FUNC_TO_PIN[pinFuncName][0];
 	const [device, mcp_pin] = ROMCARD_TO_MCP['PIN' + romcard_pin]
 
-	devices[device].digitalWrite(mcp_pin, value? 1 : 0);
+	devices[device].digitalWrite(mcp_pin, value ? 1 : 0);
 }
 
 function setAddress(addrValue) {
@@ -59,18 +59,17 @@ async function getDataFromAddress(addr, deviceROM = 1) {
 
 	writePin('CE#_U1', deviceROM & 1 ? 0 : 1); // Invert due to #
 	writePin('CE#_U2', deviceROM & 2 ? 0 : 1);
-	
+
 	writePin('OE#', 0); // Enable output
-	
+
 	const pinValues = await (
 		Promise.all(DATA_PINS.map(readPin))
-		);
+	);
 
 	writePin('CE#_U1', 1);
 	writePin('CE#_U2', 1);
 
 	writePin('OE#', 1); // Disable output
-
 
 	const byteValue = pinValues
 		.reduce((acc, curr, i) => acc + (curr * (1 << i)));
@@ -95,8 +94,8 @@ const MAX_ADDRESS = ((1 << 21) - 1);
 async function startDump(filename, deviceROM = 1, offset = 0x0) {
 	if (isDumping) throw 'Already dumping!';
 
-	writePin('BYTE#', 0);	// Enable sinle BYTE mode (DQ0 ... DQ7 only output pins)
-	writePin('WE#', 1);		// Disable Write Enable mode
+	// writePin('BYTE#', 0);	// Enable single BYTE mode (DQ0 ... DQ7 only output pins)
+	// writePin('WE#', 1);		// Disable Write Enable mode
 
 	console.log('Starting dump of ' + filename);
 

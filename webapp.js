@@ -42,8 +42,12 @@ app.post('/get-rom-name', (req, res) => {
 
 app.post('/start-dump', (req, res) => {
     const { deviceROM } = req.body;
-    startDump(romDumpFile, parseInt(deviceROM.toString(), 10));
-    res.send('OK');
+    try {
+        startDump(romDumpFile, parseInt(deviceROM.toString(), 10));
+        res.send('OK');
+    } catch (e) {
+        res.send(e);
+    }
 });
 
 app.post('/reboot', (req, res) => {
