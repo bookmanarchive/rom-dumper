@@ -46,9 +46,9 @@ module.exports = {
         'DQ3'     : [33, IN],
         'DQ4'     : [34, IN],
         'DQ5'     : [35, IN],
-        'UNKNOWN4': [36, OUT],
-        'DQ6'     : [37, IN],
-        'DQ7'     : [38, IN],
+        'DQ6'     : [36, OUT],
+        'DQ7'     : [37, IN],
+        'UNKNOWN4': [38, IN],
     },
 
     // MCPs are not connected to pins 5A and 35A for this breakout board!
