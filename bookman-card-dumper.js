@@ -54,7 +54,7 @@ function setAddress(addrValue) {
 
 const DATA_PINS = ['DQ0', 'DQ1', 'DQ2', 'DQ3', 'DQ4', 'DQ5', 'DQ6', 'DQ7'];
 
-async function getDataFromAddress(addr) {
+async function getDataFromAddress(addr, deviceROM=1) {
 	setAddress(addr);
 
 	writePin('CE#_U1', deviceROM === 1 ? 0 : 1); // Invert due to #
@@ -70,7 +70,7 @@ async function getDataFromAddress(addr) {
 
 	writePin('CE#_U1', 1);
 	writePin('CE#_U2', 1);
-	
+
 	const byteValue = pinValues
 		.reduce((acc, curr, i) => acc + (curr * (1 << i)));
 
