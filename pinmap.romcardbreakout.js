@@ -1,8 +1,11 @@
+const IN = 0;
+const OUT = 1;
+
 module.exports = {
     // Relative to the Pi
     // IN 	= receive a signal from the ROM card
     // OUT 	= feed a signal to the ROM card
-    SIGNAL_DIRECTION: { IN: 0, OUT: 1 },
+    SIGNAL_DIRECTION: { IN, OUT },
     /* 
         [ pin, signal direction ]
         use `pin` with `ROMCARD_TO_MCP['PIN' + pin]`
