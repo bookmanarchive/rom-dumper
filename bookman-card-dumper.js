@@ -57,10 +57,8 @@ const DATA_PINS = ['DQ0', 'DQ1', 'DQ2', 'DQ3', 'DQ4', 'DQ5', 'DQ6', 'DQ7'];
 async function getDataFromAddress(addr, deviceROM = 1) {
 	setAddress(addr);
 
-	writePin('CE#_U1', deviceROM & 1 ? 0 : 1); // Invert due to #
-	writePin('CE#_U2', deviceROM & 2 ? 0 : 1);
-
-	writePin('OE#', 0); // Enable output
+	writePin('CE#_U1', deviceROM === 1 ? 0 : 1); // Invert due to #
+	writePin('CE#_U2', deviceROM === 2 ? 0 : 1);
 
 	const pinValues = await (
 		Promise.all(DATA_PINS.map(readPin))
@@ -69,7 +67,7 @@ async function getDataFromAddress(addr, deviceROM = 1) {
 	writePin('CE#_U1', 1);
 	writePin('CE#_U2', 1);
 
-	writePin('OE#', 1); // Disable output
+	// writePin('OE#', 1); // Disable output
 
 	const byteValue = pinValues
 		.reduce((acc, curr, i) => acc + (curr * (1 << i)));
@@ -98,6 +96,8 @@ async function startDump(filename, deviceROM = 1, offset = 0x0) {
 	// writePin('WE#', 1);		// Disable Write Enable mode
 
 	console.log('Starting dump of ' + filename);
+
+	writePin('OE#', 0); // Enable output
 
 	isDumping = true;
 
