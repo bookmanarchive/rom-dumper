@@ -1,10 +1,12 @@
 const MCP23017 = require('node-mcp23017');
 
 // MCP devices from right to left (physically)
+
+// !! I2C addresses may be different depending on what you set the jump pins to on the Adafruit board
 const devices = {
 	mcp1: new MCP23017({ address: 0x20, device: 1 }),
 	mcp2: new MCP23017({ address: 0x21, device: 1 }),
-	mcp3: new MCP23017({ address: 0x22, device: 1 }),
+	mcp3: new MCP23017({ address: 0x23, device: 1 }), 
 };
 
 const { ROMCARD_TO_MCP, ROMCARD_FUNC_TO_PIN, SIGNAL_DIRECTION } = require('./pinmap.romcardbreakout');
