@@ -14,7 +14,7 @@ const { ROMCARD_TO_MCP, ROMCARD_FUNC_TO_PIN, SIGNAL_DIRECTION } = require('./pin
 // Setup signal directions and which device is handling what signals
 (function setupDevices() {
 	for (let romcard_pin = 1; romcard_pin <= 38; romcard_pin++) {
-		const [chip, pin] = ROMCARD_TO_MCP['pin' + romcard_pin];
+		const [chip, pin] = ROMCARD_TO_MCP['PIN' + romcard_pin];
 
 		const dir = (Object.values(ROMCARD_FUNC_TO_PIN)
 			.find(([_romcard_pin]) => _romcard_pin == romcard_pin)
