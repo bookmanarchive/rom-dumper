@@ -48,7 +48,7 @@ function setAddress(addrValue) {
 	for (let p = -1; p <= 19; p++) {
 		const pinValue = addrValue & (1 << (p + 1));
 
-		writePin('A' + p, pinValue);
+		writePin('A' + p, pinValue ? 1 : 0);
 	}
 }
 
