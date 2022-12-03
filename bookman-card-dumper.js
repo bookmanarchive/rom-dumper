@@ -119,7 +119,7 @@ async function startDump(filename, deviceROM = 1, sleepTime) {
 			return;
 		}
 
-		const data = await getDataFromAddress(addr, deviceROM, sleepTime);
+		const data = await getDataFromAddress(addr, sleepTime);
 
 		appendFileSync(filename, Buffer.from([data.byteValue]));
 	}
