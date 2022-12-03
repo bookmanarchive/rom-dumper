@@ -61,6 +61,8 @@ function sleep(ms) {
 async function getDataFromAddress(addr, sleepTime = 1) {
 	setAddress(addr);
 
+	await sleep(sleepTime);
+
 	writePin('OE#', 0); // Enable output
 
 	await sleep(sleepTime);
