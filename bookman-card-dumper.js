@@ -63,15 +63,9 @@ async function getDataFromAddress(addr, sleepTime = 1) {
 
 	await sleep(sleepTime);
 
-	writePin('OE#', 0); // Enable output
-
-	await sleep(sleepTime);
-
 	const pinValues = await (
 		Promise.all(DATA_PINS.map(readPin))
 	);
-
-	writePin('OE#', 1); // Disable output
 
 	const byteValue = pinValues
 		.reduce((acc, curr, i) => acc + (curr * (1 << i)));
@@ -112,11 +106,15 @@ async function startDump(filename, deviceROM = 1, sleepTime) {
 	writePin('CE#_U1', deviceROM === 1 ? 0 : 1); // Invert due to #
 	writePin('CE#_U2', deviceROM === 2 ? 0 : 1);
 
+	writePin('OE#', 0); // Enable output
+
 	for (addr = 0; addr <= MAX_ADDRESS; addr++) {
 		if (!isDumping) {
 
 			writePin('CE#_U1', 1);
 			writePin('CE#_U2', 1);
+
+			writePin('OE#', 1); // Disable output
 
 			return;
 		}
