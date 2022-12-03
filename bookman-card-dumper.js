@@ -55,15 +55,15 @@ function setAddress(addrValue) {
 const DATA_PINS = ['DQ0', 'DQ1', 'DQ2', 'DQ3', 'DQ4', 'DQ5', 'DQ6', 'DQ7'];
 
 function sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
+	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function getDataFromAddress(addr, deviceROM = 1) {
+async function getDataFromAddress(addr, sleepTime = 1) {
 	setAddress(addr);
 
 	writePin('OE#', 0); // Enable output
 
-	await sleep(2);
+	await sleep(sleepTime);
 
 	const pinValues = await (
 		Promise.all(DATA_PINS.map(readPin))
@@ -88,11 +88,14 @@ const { exec } = require('child_process');
 
 let addr = 0;
 let isDumping = false;
+let readSleepTime = 1; // ms
 
 const MAX_ADDRESS = ((1 << 21) - 1);
 
-async function startDump(filename, deviceROM = 1, offset = 0x0) {
+async function startDump(filename, deviceROM = 1, sleepTime) {
 	if (isDumping) throw 'Already dumping!';
+
+	readSleepTime = sleepTime;
 
 	writePin('BYTE#', 0);	// Enable single BYTE mode (DQ0 ... DQ7 only output pins)
 	// This is already tied to GND by the PCB
@@ -116,7 +119,7 @@ async function startDump(filename, deviceROM = 1, offset = 0x0) {
 			return;
 		}
 
-		const data = await getDataFromAddress(addr + offset, deviceROM);
+		const data = await getDataFromAddress(addr, deviceROM, sleepTime);
 
 		appendFileSync(filename, Buffer.from([data.byteValue]));
 	}

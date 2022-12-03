@@ -38,12 +38,14 @@ let progressUpdateInterval;
 let hasStarted = false;
 
 let selectedChip = 1;
+let sleepTime = 1;
 
 function startROMDump() {
     selectedChip = parseInt(document.querySelector(`[name="chip"]:checked`).value, 10);
+    sleepTime = parseInt(document.querySelector(`[name="sleepTime"]`).value, 10);
 
     document.getElementById('progress').classList.remove('stopped');
-    callApi('/start-dump', { deviceROM: selectedChip });
+    callApi('/start-dump', { deviceROM: selectedChip, sleepTime });
 
     clearInterval(progressUpdateInterval);
     progressUpdateInterval = setInterval(getROMDumpProgress, 3000);

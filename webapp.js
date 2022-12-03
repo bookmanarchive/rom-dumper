@@ -41,9 +41,9 @@ app.post('/get-rom-name', (req, res) => {
 });
 
 app.post('/start-dump', (req, res) => {
-    const { deviceROM } = req.body;
+    const { deviceROM, sleepTime } = req.body;
     try {
-        startDump(romDumpFile, parseInt(deviceROM.toString(), 10));
+        startDump(romDumpFile, parseInt(deviceROM.toString(), 10), sleepTime);
         res.send('OK');
     } catch (e) {
         res.send(e);
