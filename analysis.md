@@ -19,6 +19,8 @@
     - Indicates that address line 6 is possibly incorrect and therefore the pin mapping is incorrect
     - Strategy here is to test various pin mappings until the ROM header is read correctly?
         - There may be a set number of pin mappings
+    - Page 5 of US5497474 patent shows a scheme for indirection on the 6502
+        - Might be related to this
 
 ## Specific ROMs
 
