@@ -94,7 +94,7 @@ const MAX_ADDRESS = ((1 << 21) - 1);
 async function startDump(filename, deviceROM = 1, offset = 0x0) {
 	if (isDumping) throw 'Already dumping!';
 
-	// writePin('BYTE#', 0);	// Enable single BYTE mode (DQ0 ... DQ7 only output pins)
+	writePin('BYTE#', 0);	// Enable single BYTE mode (DQ0 ... DQ7 only output pins)
 	// This is already tied to GND by the PCB
 	
 	writePin('WE#', 1);		// Disable Write Enable mode
