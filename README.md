@@ -55,8 +55,8 @@ pm2 save
 pm2 startup
 ```
 
+## Additional
+- Some binary comparison utilities available in `utils` for debugging line signals / mappings
 
 ## Known issues
-- i2c peripherals / reads from MCP get corrupted sometimes
-    - unknown cause (possibly time-stretching? possibly power supply issue?)
 - Unable to handle 4MB / 2 IC ROM cards yet
