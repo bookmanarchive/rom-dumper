@@ -54,22 +54,22 @@ function setAddress(addrValue) {
 
 const DATA_PINS = ['DQ0', 'DQ1', 'DQ2', 'DQ3', 'DQ4', 'DQ5', 'DQ6', 'DQ7'];
 
-async function getDataFromAddress(addr, deviceROM=1) {
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function getDataFromAddress(addr, deviceROM = 1) {
 	setAddress(addr);
 
-	writePin('CE#_U1', deviceROM === 1 ? 0 : 1); // Invert due to #
-	writePin('CE#_U2', deviceROM === 2 ? 0 : 1);
-
 	writePin('OE#', 0); // Enable output
+
+	await sleep(2);
 
 	const pinValues = await (
 		Promise.all(DATA_PINS.map(readPin))
 	);
 
 	writePin('OE#', 1); // Disable output
-
-	writePin('CE#_U1', 1);
-	writePin('CE#_U2', 1);
 
 	const byteValue = pinValues
 		.reduce((acc, curr, i) => acc + (curr * (1 << i)));
@@ -96,15 +96,23 @@ async function startDump(filename, deviceROM = 1, offset = 0x0) {
 
 	writePin('BYTE#', 0);	// Enable single BYTE mode (DQ0 ... DQ7 only output pins)
 	// This is already tied to GND by the PCB
-	
+
 	writePin('WE#', 1);		// Disable Write Enable mode
 
 	console.log('Starting dump of ' + filename);
 
 	isDumping = true;
 
+	// Keep CE#s turned on and only toggle OE# for faster reading
+	writePin('CE#_U1', deviceROM === 1 ? 0 : 1); // Invert due to #
+	writePin('CE#_U2', deviceROM === 2 ? 0 : 1);
+
 	for (addr = 0; addr <= MAX_ADDRESS; addr++) {
 		if (!isDumping) {
+
+			writePin('CE#_U1', 1);
+			writePin('CE#_U2', 1);
+
 			return;
 		}
 

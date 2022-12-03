@@ -22,6 +22,9 @@
     - Page 5 of US5497474 patent shows a scheme for indirection on the 6502
         - Might be related to this
 
+- Check voltage on older cards
+    - 6502 Bookman1 cards might use 5V instead of 3V
+
 ## Specific ROMs
 
 ### BQF-2025
