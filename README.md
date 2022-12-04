@@ -4,11 +4,24 @@ This tool dumps binary data from Franklin Bookman ROM cards. You can start / sto
 
 These dumps are used for further binary analysis in the Bookman Archive emulator development project.
 
-## Frontend
+## Arduino Mega 2560 based dumper (using SPI bus + shift registers)
+
+Coming soon, due to data corruption issues from the MCP23017 based solution
+
+## Raspberry Pi based dumper (using I2C bus MCP23017 I/O expander)
+
+Advantages:
+- Many libraries available to work with MCP23017 and in a variety of languages
+- Easy to configure signal direction in software
+- 
+
+Disadvantages:
+- I2C bus is much slower than SPI
+- Data corruption due to I2C bus hangs
+
+### Frontend
 
 <img src="photos/Screen Shot 2021-09-26 at 9.12.14 PM.png">
-
-<img src="photos/Screen Shot 2021-09-25 at 5.36.35 PM.png">
 
 Go to http://raspberrypi.local:3000/ for the web interface.
 
@@ -19,15 +32,21 @@ q           Get the filename
 p           Get current dump progress
 h           Get first 0x100 bytes of the dump (expected ROM header)
 ```
-## Backend
+### Backend
 
 <img src="photos/DSC06466.JPG">
 
-## Setup
+
+### System Block Diagram
+
+<img src="photos/blockdiagram.png">
+
+### Setup
 
 Hardware prerequisites:
 - 1 x Raspberry Pi Zero W / Zero W 2 (or equivalents)
 - 3 x [Adafruit GPIO expander](https://www.adafruit.com/product/4132)
+    - Uses MCP23017
 - 1 x 40-pin Franklin Bookman ROM card breakout board (DIY)
 - Enable I2C interface on the Raspberry Pi
 
@@ -37,7 +56,7 @@ Software prerequisities:
 - PM2 process manager
 - Cloned a copy of this repo
 - Connected to your local Wifi
-- [Set I2C baud rate to fast mode](https://www.raspberrypi-spy.co.uk/2018/02/change-raspberry-pi-i2c-bus-speed/)
+- [Set I2C baud rate to fast mode](https://raspberrypi.stackexchange.com/a/117910)
 
 Running:
 
@@ -45,6 +64,13 @@ Running:
 # Install project dependencies
 yarn
 
+# Run the frontend server
+node webapp.js
+
+# Then go to http://raspberrypi.local:3000 to access the web frontend
+```
+
+```
 # Start process
 pm2 start
 
@@ -54,9 +80,12 @@ pm2 save
 # Restart the saved processes on reboot
 pm2 startup
 ```
+### Known issues
+- Unable to handle 4MB / 2 IC ROM cards yet
+- Persistant data corruption during dumping process
+    - Unlikely due to timing (since a large delay can be added and corruption still observed for known ROMs)
+    - Possibly MCP23017 or I2C issues
 
-## Additional
+## Additional tools
 - Some binary comparison utilities available in `utils` for debugging line signals / mappings
 
-## Known issues
-- Unable to handle 4MB / 2 IC ROM cards yet

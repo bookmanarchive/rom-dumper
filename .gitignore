@@ -1,4 +1,4 @@
 node_modules
 .afp*
-*.bin
+dump.bookman.bin
 .DS_Store
