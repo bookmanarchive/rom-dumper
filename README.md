@@ -8,12 +8,21 @@ These dumps are used for further binary analysis in the Bookman Archive emulator
 
 Coming soon, due to data corruption issues from the MCP23017 based solution
 
+Advantages:
+- Speed, much faster speeds with shift registers
+- Lower level code on an MC means less to go wrong
+    - Arduino acts as a pipe, dumps all bytes back out to serial port on connected machine
+
+Disadvantages:
+- No pretty web interface
+- More coding required
+- More soldering required for shift register daisy chaining
+
 ## Raspberry Pi based dumper (using I2C bus MCP23017 I/O expander)
 
 Advantages:
 - Many libraries available to work with MCP23017 and in a variety of languages
 - Easy to configure signal direction in software
-- 
 
 Disadvantages:
 - I2C bus is much slower than SPI
