@@ -47,7 +47,7 @@ app.post('/get-downloadable-rom-files', (req, res) => {
 
 app.post('/get-rom-header', (req, res) => {
     try {
-        const dumpedFileStream = createReadStream(romDumpFile, {
+        const dumpedFileStream = createReadStream('dump.bin', {
             start: 0x0,
             end: 0x100
         });
