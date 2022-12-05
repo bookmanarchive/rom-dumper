@@ -1,3 +1,5 @@
+// This tool highlights differences in values at equivalent binary offsets between 2 files.
+
 const fs = require('fs');
 
 const [_NODECLI, _SCRIPT, ROM_X_FILEPATH, ROM_Y_FILEPATH, page = 0] = process.argv;

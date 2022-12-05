@@ -84,7 +84,6 @@ const { exec } = require('child_process');
 
 let addr = 0;
 let isDumping = false;
-let readSleepTime = 1; // ms
 
 const MAX_ADDRESS = ((1 << 21) - 1);
 
@@ -94,9 +93,7 @@ const filename = 'dump.bin';
 async function startDump(deviceROM = 1, sleepTime) {
 	if (isDumping) throw 'Already dumping!';
 
-	readSleepTime = sleepTime;
-
-	writePin('BYTE#', 0);	// Enable single BYTE mode (DQ0 ... DQ7 only output pins)
+	// writePin('BYTE#', 0);	// Enable single BYTE mode (DQ0 ... DQ7 only output pins)
 	// This is already tied to GND by the PCB
 
 	// writePin('WE#', 1);		// Disable Write Enable mode
