@@ -79,7 +79,7 @@ async function getDataFromAddress(addr, sleepTime = 1) {
 
 ////////
 
-const { appendFileSync, unlinkSync } = require('fs');
+const { appendFileSync, unlinkSync, existsSync } = require('fs');
 const { exec } = require('child_process');
 
 let addr = 0;
@@ -112,7 +112,9 @@ async function startDump(deviceROM = 1, sleepTime) {
 	writePin('OE#', 0); // Enable output
 
 	// Overwrite previously named file
-	unlinkSync(filename);
+	if(existsSync(filename)) {
+		unlinkSync(filename);
+	}
 
 	for (addr = 0; addr <= MAX_ADDRESS; addr++) {
 		if (!isDumping) {
