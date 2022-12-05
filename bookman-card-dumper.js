@@ -88,7 +88,10 @@ let readSleepTime = 1; // ms
 
 const MAX_ADDRESS = ((1 << 21) - 1);
 
-async function startDump(filename, deviceROM = 1, sleepTime) {
+// Keep things simple
+const filename = 'dump.bin';
+
+async function startDump(deviceROM = 1, sleepTime) {
 	if (isDumping) throw 'Already dumping!';
 
 	readSleepTime = sleepTime;
@@ -96,9 +99,9 @@ async function startDump(filename, deviceROM = 1, sleepTime) {
 	writePin('BYTE#', 0);	// Enable single BYTE mode (DQ0 ... DQ7 only output pins)
 	// This is already tied to GND by the PCB
 
-	writePin('WE#', 1);		// Disable Write Enable mode
+	// writePin('WE#', 1);		// Disable Write Enable mode
 
-	console.log('Starting dump of ' + filename);
+	console.log('Starting dump...');
 
 	isDumping = true;
 
@@ -107,6 +110,9 @@ async function startDump(filename, deviceROM = 1, sleepTime) {
 	writePin('CE#_U2', deviceROM === 2 ? 0 : 1);
 
 	writePin('OE#', 0); // Enable output
+
+	// Overwrite previously named file
+	unlinkSync(filename);
 
 	for (addr = 0; addr <= MAX_ADDRESS; addr++) {
 		if (!isDumping) {
@@ -126,17 +132,12 @@ async function startDump(filename, deviceROM = 1, sleepTime) {
 
 	isDumping = false;
 
-	console.log(`Dump of ${filename} completed!`);
+	console.log(`Dump of completed!`);
 	// reboot();
 }
 
-function clearDump(filename) {
-	console.log('Clearing dump ' + filename);
-	unlinkSync(filename);
-}
-
-function stopDump(filename) {
-	console.log('Stopping dump of ' + filename);
+function stopDump() {
+	console.log('Stopping dump...');
 	isDumping = false;
 }
 

@@ -6,44 +6,24 @@ const { startDump, stopDump, getAddr, clearDump, reboot, shutdown } = require('.
 
 app.use(express.urlencoded({ extended: true }));
 
-let romDumpFile = 'dump.bookman.bin';
-
-app.post('/set-rom-name', (req, res) => {
-    const { name } = req.body;
-
-    if (name) {
-        romDumpFile = name;
-    }
-
-    res.end();
-});
-
 app.post('/get-next-dump-addr', (req, res) => {
     res.send(getAddr().toString());
 });
 
 app.post('/stop-dump', (req, res) => {
-    stopDump(romDumpFile);
+    stopDump();
     res.send('OK');
 });
 
 app.post('/delete-dump', (req, res) => {
-    const { name } = req.body;
-    if (name && /\.bin$/.test(name)) {
-        clearDump(name);
-    }
-
+    clearDump();
     res.send('OK');
-});
-
-app.post('/get-rom-name', (req, res) => {
-    res.contentType('text/plain').send(romDumpFile);
 });
 
 app.post('/start-dump', (req, res) => {
     const { deviceROM, sleepTime } = req.body;
     try {
-        startDump(romDumpFile, parseInt(deviceROM.toString(), 10), sleepTime);
+        startDump(parseInt(deviceROM.toString(), 10), sleepTime);
         res.send('OK');
     } catch (e) {
         res.send(e);

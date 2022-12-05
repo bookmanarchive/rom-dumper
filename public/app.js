@@ -11,22 +11,6 @@ function callApi(url, body) {
 function getDateString() {
     return (new Date).toISOString().replace(/[\.\:T]/g, '-');
 }
-
-let prevROMName = `dump.bookman.${getDateString()}.bin`;
-
-function setROMName() {
-    const name = prompt('Set the filename for the ROM', prevROMName);
-
-    if (name) {
-        prevROMName = name;
-        callApi('/set-rom-name', { name });
-    }
-}
-
-function getROMName() {
-    alert(prevROMName);
-}
-
 async function getROMHeader() {
     const res = await callApi('/get-rom-header');
     const text = await res.text();
@@ -89,9 +73,9 @@ function shutdown() {
     }
 }
 
-async function deleteROMDump(name) {
-    if (confirm('Delete ' + name + '?')) {
-        await callApi('/delete-dump', { name });
+async function deleteROMDump() {
+    if (confirm('Delete dump file?')) {
+        await callApi('/delete-dump');
         getDownloadableROMFiles();
     }
 }
@@ -111,10 +95,6 @@ async function getROMDumpProgress() {
     const progress = Math.round((addr / MAX_ADDRESS) * 100);
     document.getElementById('progress').value = progress;
     document.getElementById('bytes').innerHTML = getHumanFileSize(addr) + ' dumped.';
-
-    res = await callApi('/get-rom-name');
-    text = await res.text();
-    prevROMName = text;
 }
 
 async function getDownloadableROMFiles() {
@@ -138,12 +118,6 @@ addEventListener('keypress', ({ which }) => {
             break;
         case 112: // p
             getROMDumpProgress();
-            break;
-        case 113: // q
-            getROMName();
-            break;
-        case 110: // n
-            setROMName();
             break;
         default: // nothing
             console.log(which);

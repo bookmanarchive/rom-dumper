@@ -36,8 +36,6 @@ Go to http://raspberrypi.local:3000/ for the web interface.
 
 ```
 Key press   Action
-n           Set dump filename
-q           Get the filename
 p           Get current dump progress
 h           Get first 0x100 bytes of the dump (expected ROM header)
 ```
@@ -93,7 +91,14 @@ pm2 startup
 - Unable to handle 4MB / 2 IC ROM cards yet
 - Persistant data corruption during dumping process
     - Unlikely due to timing (since a large delay can be added and corruption still observed for known ROMs)
-    - Possibly MCP23017 or I2C issues
+        - This can be tweaked with the "ms read delay" variable in the frontend
+    - Possibly MCP23017 or I2C issues?
+    - Check I2C baud rate with `sudo cat /sys/kernel/debug/clk/clk_summary`
+        - I2C rate is derived from CPU clock so if CPU scales down then I2C clock is affected
+    - [Make CPU clock speed constant](https://forums.raspberrypi.com/viewtopic.php?t=325091#p1946018)
+        - Doesn't seem to make a difference for some ROM cards
+    - Likely different address pin mapping? Or perhaps some pins which are switched on (BYTE# in Bookman3 mapping should be floated)
+
 
 ## Additional tools
 - Some binary comparison utilities available in `utils` for debugging line signals / mappings
