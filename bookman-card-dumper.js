@@ -156,6 +156,5 @@ module.exports = {
 	shutdown,
 	startDump,
 	stopDump,
-	clearDump,
 	getAddr: () => addr
 };
