@@ -1,5 +1,9 @@
 # ROM content analysis
 
+## Additional analysis
+- Use an interrupt tied to the CE# pins for the ROM card / onboard mem to snapshot address and data lines
+    - Will need a sacrificial device for this (solder fine wires to the pads)
+    
 ## Finding the Card screen icon
 - Card screen can be reached on the device by pressing the CARD key on all Bookman models
 - Every app available to the device is displayed here with its unique position and icon

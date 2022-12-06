@@ -98,7 +98,11 @@ pm2 startup
     - [Make CPU clock speed constant](https://forums.raspberrypi.com/viewtopic.php?t=325091#p1946018)
         - Doesn't seem to make a difference for some ROM cards
     - Likely different address pin mapping? Or perhaps some pins which are switched on (BYTE# in Bookman3 mapping should be floated)
-
+    
+    - [Elastomeric connector](https://en.wikipedia.org/wiki/Elastomeric_connector) needs to be seated correctly otherwise the pins will not make good contact!
+        - This was possibly the failure mode for some of the ROM cards!
+        - Leave the card slot empty and start a dump, then put in a "failed" card and do a dump, similar results = elastomeric connector was not making good contact so pins are left floating!!
+        - TODO: measure connector and order an oversized one to compensate for any give in the breakout board
 
 ## Additional tools
 - Some binary comparison utilities available in `utils` for debugging line signals / mappings
