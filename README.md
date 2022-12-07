@@ -88,6 +88,7 @@ pm2 save
 pm2 startup
 ```
 ### Known issues
+- Slow dump speed due to low I2C bus clock speed
 
 ## Solved issues
 - Persistant data corruption during dumping process
