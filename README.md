@@ -88,7 +88,8 @@ pm2 save
 pm2 startup
 ```
 ### Known issues
-- Unable to handle 4MB / 2 IC ROM cards yet
+
+## Solved issues
 - Persistant data corruption during dumping process
     - Unlikely due to timing (since a large delay can be added and corruption still observed for known ROMs)
         - This can be tweaked with the "ms read delay" variable in the frontend
@@ -103,6 +104,16 @@ pm2 startup
         - This was possibly the failure mode for some of the ROM cards!
         - Leave the card slot empty and start a dump, then put in a "failed" card and do a dump, similar results = elastomeric connector was not making good contact so pins are left floating!!
         - TODO: measure connector and order an oversized one to compensate for any give in the breakout board
+            - Measurements of the conductive strip: 
+        - Alternative: create a latch / pressure bar to apply pressure on the top of the cartridge when it's plugged into the breakout board to "force" a good contact with the elastomeric connector!
+
+    - **Solution** This was solved by using a weight to press the top edge of the card when plugged into the card breakout board. Maximizing the lever effect seemed to produce good results in maintaining electrical contact through the elastomeric connector.
+
+<img src="photos/IMG_20221207_134711.jpg">
+
+
+- Unable to handle 4MB / 2 IC ROM cards yet
+    - **Solution** This was solved by mapping the CE# pin for the second bank of the ROM card
 
 ## Additional tools
 - Some binary comparison utilities available in `utils` for debugging line signals / mappings
