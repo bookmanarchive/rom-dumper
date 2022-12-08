@@ -1,10 +1,8 @@
-// Extracts the Card Icon from a ROM dump
-// Assumes you have ImageMagick installed
-
-const [_NODEBINARY, _SCRIPTFILE, ROMFILE] = process.argv;
+// Extracts the Card Icon from a ROM dump file
+// Prerequisites: 
+//  - ImageMagick CLI installed
 
 const { execSync } = require('child_process');
-const { once } = require('events');
 const fs = require('fs');
 
 const Jimp = require('jimp');
@@ -24,27 +22,29 @@ async function createScratchImage() {
     });
 }
 
-(async () => {
+module.exports = async function extractedCardIcon(ROMFILE) {
     // See `analysis.md` for the investigation
-    
+
     // Step #1: Find the Card Icon image offset from the ROM's metadata
+
     const ROM_CONTENT = fs.readFileSync(ROMFILE);
-    const metadataStructOffset = ROM_CONTENT.readUInt16LE(0xAA);
+    const OFFSET_FUNCTION_KEY_NAMES = 0xAA;
 
-    let metadataStruct = ROM_CONTENT.subarray(metadataStructOffset, metadataStructOffset+256); // Card Icon offset will most definitely be found within 256 bytes
-    let nextMetadataEntryOffset = 0;
-    
-    const START_DELIMITER = new Uint8Array([0x05, 0x00]);
+    // Icon offset is co-located within the same N byte block
+    const BLOCK_SIZE = 256;
+    const metadataStructOffset = Math.floor(ROM_CONTENT.readUInt16LE(OFFSET_FUNCTION_KEY_NAMES) / BLOCK_SIZE) * BLOCK_SIZE;
 
-    nextMetadataEntryOffset = metadataStruct.indexOf(START_DELIMITER) + START_DELIMITER.length;
+    let metadataStruct = ROM_CONTENT.subarray(metadataStructOffset, metadataStructOffset + 1024); // Card Icon offset will most definitely be found within the next 1024 bytes
+
+    const START_DELIMITER = new Uint8Array([0x00, 0x18, 0x00, 0x05, 0x00]);
+
+    const nextMetadataEntryOffset = metadataStruct.lastIndexOf(START_DELIMITER) + START_DELIMITER.length;
     metadataStruct = metadataStruct.subarray(nextMetadataEntryOffset); // truncate the current metadata entry
-    
-    // console.log(metadataStruct);
 
     const iconOffset = metadataStruct.readUInt32LE();
 
     // Step #2: Extract and process the Card Icon data into a coherent image
-    
+
     execSync(`convert -endian LSB -size 40x24+${iconOffset} 'mono:${ROMFILE}' out.png`);
 
     const finalIcon = await createNewIcon();            // Dest (final PNG)
@@ -63,12 +63,12 @@ async function createScratchImage() {
 
         scratchImage.flip(true, false);
 
-        finalIcon.blit(scratchImage, x*8, 0);
+        finalIcon.blit(scratchImage, x * 8, 0);
     }
 
-    const finalIconPath = ROMFILE.substring(0,ROMFILE.lastIndexOf('.')) + '.png';
+    const finalIconPath = ROMFILE.substring(0, ROMFILE.lastIndexOf('.')) + '.png';
 
     await finalIcon.writeAsync(finalIconPath);
 
     console.log(`Icon generated: ${finalIconPath}`);
-})();
+};
