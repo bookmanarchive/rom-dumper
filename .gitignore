@@ -2,3 +2,4 @@ node_modules
 .afp*
 dump.bookman.bin
 .DS_Store
+out.png

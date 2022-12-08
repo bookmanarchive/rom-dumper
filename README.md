@@ -105,7 +105,9 @@ pm2 startup
         - This was possibly the failure mode for some of the ROM cards!
         - Leave the card slot empty and start a dump, then put in a "failed" card and do a dump, similar results = elastomeric connector was not making good contact so pins are left floating!!
         - TODO: measure connector and order an oversized one to compensate for any give in the breakout board
-            - Measurements of the conductive strip: 
+            - Measurements of the conductive strip: 1.47mm D x 3.55mm H x 46.5 mm W
+            - Replacement strip needs to be taller than 3.55mm, preferably 4.0 or 4.5 mm in H dimension
+            
         - Alternative: create a latch / pressure bar to apply pressure on the top of the cartridge when it's plugged into the breakout board to "force" a good contact with the elastomeric connector!
 
     - **Solution** This was solved by using a weight to press the top edge of the card when plugged into the card breakout board. Maximizing the lever effect seemed to produce good results in maintaining electrical contact through the elastomeric connector.

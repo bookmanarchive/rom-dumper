@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",
+    "jimp": "^0.16.2",
     "node-mcp23017": "^0.0.7"
   }
 }
