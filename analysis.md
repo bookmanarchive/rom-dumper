@@ -77,8 +77,7 @@ Which matches exactly the location we previously discovered. This means we only 
 montage roms/*.png -geometry +4+4 -tile 4x icons.png
 ```
 
-
-Result: a script was written to extract the Card Icon from ROM dumps, it can be found [here](utils/extractCardIcon.js).
+**Result**: a script was written to extract the Card Icon from ROM dumps, it can be found [here](utils/extractCardIcon.js).
 
 
 ## Specific ROMs
