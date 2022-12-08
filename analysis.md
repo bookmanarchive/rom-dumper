@@ -68,38 +68,18 @@ After some experimentation, we discover that this is a NULL byte separated value
 
 Which matches exactly the location we previously discovered. This means we only need to skip the first 7 null bytes before we arrive at the Card Icon offset value. If we apply the same search routine to find the offset of the Card Icon for other ROMs we retrieve visually correct images. Success!
 
-<center><table>
-<tr>
-<td><img src="roms/BJP-2034-v1.0_U1.png"></td>
-<td><img src="roms/BQF-2025_v1.2_U1.png"></td>
-<td><img src="roms/CWQ-2056-v1.0_U1.png"></td>
-</tr>
-<tr>
-<td><img src="roms/MBC-2036-v1.1_U1.png"></td>
-<td><img src="roms/WGM-2037_v1.0_U1.png"></td>
-<td><img src="roms/XBT-2058_v1.0_U1.png"></td>
-</tr>
-<tr>
-<td><img src="roms/XGT-2043_v1.0_U1.png"></td>
-<td><img src="roms/XST-2051-v1.0_U1.png"></td>
-<td></td>
-</tr>
-</table></center>
+<center>
+<img src="sample-extracted-icons.png">
+</center>
+
+```bash
+# From https://stackoverflow.com/a/37710999/7216921
+montage roms/*.png -geometry +4+4 -tile 4x icons.png
+```
+
 
 Result: a script was written to extract the Card Icon from ROM dumps, it can be found [here](utils/extractCardIcon.js).
 
-
-## Failure modes
-
-- Some DBE-2020 cards fail in that the previous 16 bytes are repeated every other instance
-    - Indicates that address line 6 is possibly incorrect and therefore the pin mapping is incorrect
-    - Strategy here is to test various pin mappings until the ROM header is read correctly?
-        - There may be a set number of pin mappings
-    - Page 5 of US5497474 patent shows a scheme for indirection on the 6502
-        - Might be related to this
-
-- Check voltage on older cards
-    - 6502 Bookman1 cards might use 5V instead of 3V
 
 ## Specific ROMs
 
