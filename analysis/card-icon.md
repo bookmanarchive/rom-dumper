@@ -92,7 +92,11 @@ The procedure seemed too sloppy for our tastes. Surely the address of the card i
 
 ```
 0x7E = contains offset of the Card Icon struct
-0xAA = contains offset of the Function Key Name array (4 items, null byte separated)
+
+0xAA = contains offset (2 bytes, LE) of the Function Key 1 Name (ASCII string, null terminated)
+0xAC = contains offset (2 bytes, LE) of the Function Key 2 Name (ASCII string, null terminated)
+0xAE = contains offset (2 bytes, LE) of the Function Key 3 Name (ASCII string, null terminated)
+0xB0 = contains offset (2 bytes, LE) of the Function Key 4 Name (ASCII string, null terminated)
 ```
 
 The final iteration of the procedure is to read and unpack the Card Icon struct from our findings and simply use that as the route to extraction.
