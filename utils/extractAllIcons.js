@@ -1,6 +1,7 @@
 const fs = require('fs');
 
-const extractCardIcon = require('./extractCardIcon');
+const CardIcon = require('./Bookman1/CardIcon');
+const FunctionKeyName = require('./Bookman1/FunctionKeyName');
 
 const DIR_ROMS = 'roms';
 
@@ -12,7 +13,12 @@ const DIR_ROMS = 'roms';
         if (romFile.indexOf('_U1.bin') < 0) continue;
 
         try {
-            await extractCardIcon(`${DIR_ROMS}/${romFile}`);
+            const filePath = `${DIR_ROMS}/${romFile}`;
+            
+            await CardIcon.extract(filePath);
+
+            // console.log(FunctionKeyName.extract(filePath));
+            
         } catch (e) {
             erroredList.push(romFile);
             console.trace(e);

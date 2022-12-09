@@ -25,20 +25,20 @@ async function createScratchImage(w, h) {
     });
 }
 
-async function extractImage(w, h, offset, i) {
+async function extractImage(w, h, offset, romFile, i) {
 
-    execSync(`convert -endian LSB -size ${w}x${h}+${offset} 'mono:${ROMFILE}' out.png`);
+    execSync(`convert -endian LSB -size ${w}x${h}+${offset} 'mono:${romFile}' out.png`);
 
-    const finalIcon = await createNewImage(w, h);           // Dest (final PNG)
+    const finalImage = await createNewImage(w, h);           // Dest (final PNG)
     const scratchImage = await createScratchImage(w, h);    // Blit buffer
 
-    const extractedIcon = await Jimp.read('out.png');   // Source (from ROM)
+    const extractedImage = await Jimp.read('out.png');   // Source (from ROM)
 
     // Column tiles of 8 mono-pixels are flipped, flip them again to ensure correct display
     const maxX = w / 8;
     for (let x = 0; x < maxX; x++) {
         scratchImage.blit(
-            extractedIcon, // source
+            extractedImage, // source
             0, 0,     // dest x, y
             x * 8, 0,     // src x, y
             8, h   // src w, h
@@ -46,18 +46,18 @@ async function extractImage(w, h, offset, i) {
 
         scratchImage.flip(true, false);
 
-        finalIcon.blit(scratchImage, x * 8, 0);
+        finalImage.blit(scratchImage, x * 8, 0);
     }
 
-    const finalIconPath = ROMFILE.substring(0, ROMFILE.lastIndexOf('.')) + '.' + i.toString().padStart(3, '0') + '.png';
+    const finalIconPath = romFile.substring(0, romFile.lastIndexOf('.')) + '.' + i.toString().padStart(3, '0') + '.png';
 
-    await finalIcon.writeAsync(finalIconPath);
+    await finalImage.writeAsync(finalIconPath);
 }
 
-async function extractImagesForROM(ROMFILE) {
+async function extractImagesForROM(romFile) {
     // See `analysis.md` for the investigation
 
-    const ROM_CONTENT = fs.readFileSync(ROMFILE);
+    const ROM_CONTENT = fs.readFileSync(romFile);
 
     const IMAGE_DELIMITER = new Uint8Array([0x00, 0x05, 0x00]);
 
@@ -66,16 +66,27 @@ async function extractImagesForROM(ROMFILE) {
 
     while (nextImageEntryOffset >= 0) {
         let [imageWidth, nullbyte, imageHeight] = ROM_CONTENT.subarray(nextImageEntryOffset - 3);
+
+        // Hard code for now
+        imageWidth = 32;
+        imageHeight = 24;
+
         let imageOffset = ROM_CONTENT.subarray(nextImageEntryOffset + IMAGE_DELIMITER.length).readUInt32LE();
 
         const isValid = (
-            imageWidth > 2 &&
-            imageHeight > 2 &&
+            // imageWidth > 2 &&
+            // imageHeight > 2 &&
             imageOffset < ROM_CONTENT.length
         );
 
-        if(isValid) {
+        if (isValid) {
             console.log(`Image #${index} = ${imageWidth} x ${imageHeight} stored at 0x${imageOffset.toString(16)}`);
+
+            // const extractionOffset = 120 * 0; // 1;
+            const extractionOffset = 0;
+            // imageOffset = 0x100db;
+
+            await extractImage(imageWidth, imageHeight, imageOffset + extractionOffset, romFile, index);
         }
 
         nextImageEntryOffset = ROM_CONTENT.indexOf(IMAGE_DELIMITER, nextImageEntryOffset + IMAGE_DELIMITER.length);
