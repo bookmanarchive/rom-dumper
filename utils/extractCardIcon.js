@@ -22,7 +22,7 @@ async function createScratchImage() {
     });
 }
 
-module.exports = async function extractedCardIcon(ROMFILE) {
+module.exports = async function extractCardIcon(ROMFILE) {
     // See `analysis.md` for the investigation
 
     // Step #1: Find the Card Icon image offset from the ROM's metadata
@@ -34,11 +34,12 @@ module.exports = async function extractedCardIcon(ROMFILE) {
     const BLOCK_SIZE = 256;
     const metadataStructOffset = Math.floor(ROM_CONTENT.readUInt16LE(OFFSET_FUNCTION_KEY_NAMES) / BLOCK_SIZE) * BLOCK_SIZE;
 
-    let metadataStruct = ROM_CONTENT.subarray(metadataStructOffset, metadataStructOffset + 1024); // Card Icon offset will most definitely be found within the next 1024 bytes
-
-    const START_DELIMITER = new Uint8Array([0x00, 0x18, 0x00, 0x05, 0x00]);
-
-    const nextMetadataEntryOffset = metadataStruct.lastIndexOf(START_DELIMITER) + START_DELIMITER.length;
+    let metadataStruct = ROM_CONTENT.subarray(metadataStructOffset, metadataStructOffset + 1<<13); // Card Icon offset will most definitely be found within the next 8192 bytes
+    
+    // Looks like this delimiter will also find other images!
+    const IMAGE_DELIMITER = new Uint8Array([0x00, 0x18, 0x00, 0x05, 0x00]); 
+    
+    const nextMetadataEntryOffset = metadataStruct.indexOf(IMAGE_DELIMITER) + IMAGE_DELIMITER.length;
     metadataStruct = metadataStruct.subarray(nextMetadataEntryOffset); // truncate the current metadata entry
 
     const iconOffset = metadataStruct.readUInt32LE();

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "icons": "node utils/extractAllIcons.js"
+    "icons": "node utils/extractAllIcons.js ; montage roms/*.png -geometry +8+8 -tile 6x sample-extracted-icons.png"
   },
   "dependencies": {
     "express": "^4.17.1",

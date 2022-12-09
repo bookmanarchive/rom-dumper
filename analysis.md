@@ -74,11 +74,26 @@ Which matches exactly the location we previously discovered. This means we only 
 
 ```bash
 # From https://stackoverflow.com/a/37710999/7216921
-montage roms/*.png -geometry +4+4 -tile 4x icons.png
+montage roms/*.png -geometry +8+8 -tile 6x sample-extracted-icons.png
 ```
 
 **Result**: a script was written to extract the Card Icon from ROM dumps, it can be found [here](utils/extractCardIcon.js).
 
+**Further findings**: The `IMAGE_DELIMITER` can also be used to find locations of other images in the ROM!
+
+Sequentially packed bytes have been identified (around the pattern `0x00, 0x05, 0x00`):
+
+```
+    0x28 = 40 pixels image width
+    0x00 - struct delimiter
+    0x18 = 24 pixels image height
+    0x00 - struct delimiter
+    0x05 = ??? offset entry? (it's always there)
+    0x00 - struct delimiter
+     ...
+    4 byte LE value for binary offset of image data
+     ...
+```
 
 ## Specific ROMs
 
