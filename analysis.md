@@ -17,6 +17,9 @@
     - Pocket Quicken PQN-560 traffic
     - Bookman Writer traffic
 
+- Further analysis of image arrays
+    - Trivia game ROMs are good for this, as is the Word Games ROM
+    
 
 ## Finding the Card screen icon
 
