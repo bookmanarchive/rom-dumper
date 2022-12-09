@@ -53,9 +53,9 @@ After some experimentation, we discover that this is a NULL byte separated value
 
 Which matches exactly the location we previously discovered. This means we only need to skip the first 7 null bytes before we arrive at the Card Icon offset value. If we apply the same search routine to find the offset of the Card Icon for other ROMs we retrieve visually correct images. Success!
 
-<center>
-<img src="../sample-extracted-icons.png">
-</center>
+
+<img src="../sample-extracted-icons.png" align="center">
+
 
 ```bash
 # From https://stackoverflow.com/a/37710999/7216921
