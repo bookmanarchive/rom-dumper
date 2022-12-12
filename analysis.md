@@ -20,7 +20,10 @@
 
 - Further analysis of image arrays
     - Trivia game ROMs are good for this, as is the Word Games ROM
+    - Blackjack & Video Poker also have distinct card images, more easily recognized due to rectangular shape and straight lines
 
+- SCLK, POL, DATA lines are likely SPI for Bookman1 LCD controller
+    - Use a logic analyzer on these signals
 
 ## Specific ROMs
 
