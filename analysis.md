@@ -24,11 +24,8 @@
 
 - SCLK, POL, DATA lines are likely SPI for Bookman1 LCD controller
     - Use a logic analyzer on these signals
+    - MED-1770 Pocket PDR (Bookman2) unit has large pads for these which can be more easily soldered to
 
-## Specific ROMs
-
-### BQF-2025
-- Found a reference to `asm6502` within the ROM, likely this assembler from 1985!
-    - At offset 0x
-    - https://github.com/ptrrkssn/asm6502
-
+- 2.5mm TRS to USB cable that came with a DMQ-1870 device is simply just a serial to USB adapter "LPB-01903-25A" (2022-12)
+    - Breakout wires have been soldered to the serial end of this for further analysis with additional serial to USB adapters to capture the data
+    - TX (green), RX (red), GND (black) breakouts

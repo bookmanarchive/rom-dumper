@@ -1,17 +1,10 @@
-# General Analysis notes 
+# ROM specific notes
 
-## Bookman1
+This file contains investigative details, notes, and other scraps relating to specific ROM files and content.
 
-See `utils/Bookman1` for programmatic descriptions / usages of RE findings.
+## WGM-2037 Word Games
 
-```
-0x48 = filesize of the entire ROM as a UInt32LE
-
-```
-
-## Temporary notes / Suspects
-
-### WGM-2037 Word Games General Analysis #1
+### General Analysis #1
 
 Searching for `Bookman1` within the ROM, we can find two instances:
 - Magic number at offset 0
@@ -55,7 +48,7 @@ Disassembled via [virtual 6502](https://www.masswerk.at/6502/disassembler.html) 
 
 We can further grab the entire chunk of non `FF` (filler byte) values from `0x72A0 - 0xB44B` inclusive and put it through the disasm to get our first asm file: `WGM-2037.0.asm`
 
-### WGM-2037 Word Games General Analysis #2
+### General Analysis #2
 
 Knowing that the first bank of the ROM is loaded in at $8000 means we can check common vectors:
 
@@ -76,3 +69,11 @@ Knowing that the first bank of the ROM is loaded in at $8000 means we can check 
 So we can derive machine code for at least 2 of these routines:
     - `WGM-2037.reset.asm` = 1505 bytes from offset 29344
     - `WGM-2037.irq.asm` = 356 bytes from offset 30849
+
+---
+
+## BQF-2025
+- Found a reference to `asm6502` within the ROM, likely this assembler from 1985!
+    - At offset 0x
+    - https://github.com/ptrrkssn/asm6502
+
