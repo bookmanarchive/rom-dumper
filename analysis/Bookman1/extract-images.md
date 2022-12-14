@@ -18,7 +18,7 @@ convert -endian LSB -size 48x24384+0 mono:roms/WGM-2037_v1.0_U1.bin out.png
 convert -endian LSB -size 64x13+53234 mono:roms/WGM-2037_v1.0_U1.bin out.png
 ```
 
-<img src="../photos/WGM-2037/book-page-turning-animation.png">
+<img src="../../photos/WGM-2037/book-page-turning-animation.png">
 
 `53234d = 0xF2CF (LE)` found at `0x532`, which appears to have some values that correspond to our found image if we look at the surrounding bytes starting at `0x52C`:
 

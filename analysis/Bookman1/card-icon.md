@@ -28,7 +28,7 @@ convert -endian LSB -size 40x16384+0 mono:roms/WGM-2037_v1.0_U1.bin out.png
 Measuring this image offset it appears around 9911 rows of 40 mono-pixels from the start of the file. 
 
 
-<img src="../photos/WGM-2037/Screen Shot 2022-12-07 at 11.21.17 PM.png">
+<img src="../../photos/WGM-2037/Screen Shot 2022-12-07 at 11.21.17 PM.png">
 
 ```bash
 # More tweaking of the offset until image is mostly aligned and correct
@@ -54,7 +54,7 @@ After some experimentation, we discover that this is a NULL byte separated value
 Which matches exactly the location we previously discovered. This means we only need to skip the first 7 null bytes before we arrive at the Card Icon offset value. If we apply the same search routine to find the offset of the Card Icon for other ROMs we retrieve visually correct images. Success!
 
 
-<img src="../sample-extracted-icons.png" align="center">
+<img src="../../sample-extracted-icons.png" align="center">
 
 
 ```bash
