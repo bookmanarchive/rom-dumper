@@ -4,25 +4,13 @@ This tool dumps binary data from Franklin Bookman ROM cards. You can start / sto
 
 These dumps are used for further binary analysis in the Bookman Archive emulator development project.
 
-## Arduino Mega 2560 based dumper (using SPI bus + shift registers)
-
-Coming soon, due to data corruption issues from the MCP23017 based solution
-
-Advantages:
-- Speed, much faster speeds with shift registers
-- Lower level code on an MC means less to go wrong
-    - Arduino acts as a pipe, dumps all bytes back out to serial port on connected machine
-
-Disadvantages:
-- No pretty web interface
-- More coding required
-- More soldering required for shift register daisy chaining
 
 ## Raspberry Pi based dumper (using I2C bus MCP23017 I/O expander)
 
 Advantages:
 - Many libraries available to work with MCP23017 and in a variety of languages
 - Easy to configure signal direction in software
+- Dumper device is its own host on the WLAN
 
 Disadvantages:
 - I2C bus is much slower than SPI
@@ -90,7 +78,7 @@ pm2 startup
 ### Known issues
 - Slow dump speed due to low I2C bus clock speed
 
-## Solved issues
+### Solved issues
 - Persistant data corruption during dumping process
     - Unlikely due to timing (since a large delay can be added and corruption still observed for known ROMs)
         - This can be tweaked with the "ms read delay" variable in the frontend
@@ -117,6 +105,22 @@ pm2 startup
 
 - Unable to handle 4MB / 2 IC ROM cards yet
     - **Solution** This was solved by mapping the CE# pin for the second bank of the ROM card
+
+## Alternate: Arduino Mega 2560 based dumper (using SPI bus + shift registers)
+
+Advantages:
+- Speed, much faster speeds with shift registers
+- Lower level code on an MC means less to go wrong
+    - Arduino acts as a pipe, dumps all bytes back out to serial port on connected machine
+
+Disadvantages:
+- No pretty web interface
+- More coding required
+- More soldering required for shift register daisy chaining
+- **Major:** needs a dedicated host device to save the dumps. Thus tying up usage of the host system
+
+Device not yet built.
+
 
 ## Additional tools
 - Some binary comparison utilities available in `utils` for debugging line signals / mappings
