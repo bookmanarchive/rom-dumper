@@ -14,7 +14,6 @@ Advantages:
 
 Disadvantages:
 - I2C bus is much slower than SPI
-- Data corruption due to I2C bus hangs
 
 ### Frontend
 
