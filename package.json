@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
+    "db": "open dumping.sqlite3",
     "icons": "node utils/extractAllIcons.js ; montage roms/*.png -geometry +8+8 -tile 6x sample-extracted-icons.png"
   },
   "dependencies": {

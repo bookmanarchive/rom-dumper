@@ -2,7 +2,7 @@
 
 This tool dumps binary data from Franklin Bookman ROM cards. You can start / stop / track ROM dump progress via a web-based frontend.
 
-These dumps are used for further binary analysis in the Bookman Archive emulator development project.
+These dumps are used for further binary analysis in the Bookman Archive emulator development project. See the [roadmap](roadmap.md) for all the details.
 
 
 ## Raspberry Pi based dumper (using I2C bus MCP23017 I/O expander)

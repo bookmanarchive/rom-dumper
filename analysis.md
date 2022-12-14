@@ -2,6 +2,14 @@
 
 - Please see the documents at the new location within the [`analysis`](analysis) directory
 
+- Analysis tools
+    - [Hex Fiend for MacOS (OSS)](https://github.com/HexFiend/HexFiend)
+    - ImageMagick
+
+- Record-keeping tools
+    - SQLite3 and TablePlus for ROM dump record keeping, see [`dumping.sqlite3`](dumping.sqlite3)
+
+
 ## Additional avenues for analysis
 
 - Use an interrupt tied to the CE# pins for the ROM card / onboard mem to snapshot address and data lines
