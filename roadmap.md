@@ -1,4 +1,19 @@
-# Reverse-Engineering Roadmap
+# Reverse Engineering Roadmap
+
+
+
+## Purpose and Goals
+
+- Digital preservation of the Bookman ecosystem
+    - Ability to run Bookman software on modern hardware either through reproduction systems or emulators
+
+- Deep technical learning of the Bookman platforms through investigative tech forensics
+    - The difficult process of figuring out the pieces and how they fit together is a fun challenge
+    - Primary motivating factor here is to learn the inside-outs of how a company built an ebook product landscape with technology of the era
+
+- To go where other digital archivists / curators have not gone before!
+    - As of this writing (2022-12-XX) this is the ONLY Bookman preservation and reverse engineering project, so we are treading entirely new ground and publicly publishing new information to the wider Internet
+
 
 ## Approach
 
@@ -24,6 +39,11 @@ Each tier offers a distinct benefit when significant progress is made or task co
 If stuck any at particular task / tier, it may be wise to take pause and shift  to another task / tier. This might allow findings to consolidate subconsiciously (in regards to the project) into a more useful development later on.
 
 We will do our best to stay methodical and keep notes on every step where possible.
+
+
+```
+    INSERT PATH DIAGRAM HERE
+```
 
 
 ### RE Level 1
