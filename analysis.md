@@ -3,8 +3,13 @@
 - Please see the documents at the new location within the [`analysis`](analysis) directory
 
 - Analysis tools
+    - MacOS System Calculator
+        - Useful for Dec-Bin-Hex
     - [Hex Fiend for MacOS (OSS)](https://github.com/HexFiend/HexFiend)
+        - Useful for [Binary Templates](https://github.com/HexFiend/HexFiend/blob/master/templates/Tutorial.md)
     - ImageMagick
+        - Able to handle raw binary as images without aborting operation
+    - Ghidra RE
 
 - Record-keeping tools
     - SQLite3 and TablePlus for ROM dump record keeping, see [`dumping.sqlite3`](dumping.sqlite3)

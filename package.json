@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
+    "progress": "sqlite3 dumping.sqlite3 '.mode box' 'select * from dumping_progress order by id asc'",
     "db": "open dumping.sqlite3",
     "icons": "node utils/extractAllIcons.js ; montage roms/*.png -geometry +8+8 -tile 6x sample-extracted-icons.png"
   },
