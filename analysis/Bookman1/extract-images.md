@@ -30,7 +30,16 @@ Dec         64    13          53234
 
 But this is a bit of dead end for now...
 
+## Searching for sequences with valid struct values
 
+We're looking within WGM-2037 again for the hex sequence `00 08 00` to find other animation strip images, and we find a bunch of them with invalid values (either non-null bytes where there should be null bytes). However, one instance at 0x375AE seems to be:
 
+```
+Hex         0D 00 11 00 08 00 0E 80
+Dec         13    17          32782
+            W     H     ??    Addr of animation data
+```
+
+However, this isn't a coherent image so this is a dead end.
 
 
