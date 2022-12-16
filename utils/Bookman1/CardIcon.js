@@ -69,7 +69,7 @@ async function extract(romFile) {
         finalIcon.blit(scratchImage, x * 8, 0);
     }
 
-    const finalIconPath = romFile.substring(0, romFile.lastIndexOf('.')) + '.png';
+    const finalIconPath = 'photos/' + romFile.substring(0, romFile.lastIndexOf('.')) + '.png';
 
     await finalIcon.writeAsync(finalIconPath);
 

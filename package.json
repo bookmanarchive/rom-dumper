@@ -3,14 +3,15 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "hexfiend":"cp ./analysis/Bookman1/HexFiendBinaryTemplates/* ~/Library/Application\\ Support/com.ridiculousfish.HexFiend/Templates/",
+    "hexfiend": "cp ./analysis/Bookman1/HexFiendBinaryTemplates/* ~/Library/Application\\ Support/com.ridiculousfish.HexFiend/Templates/",
     "progress": "sqlite3 dumping.sqlite3 '.mode box' 'select * from dumping_progress order by id asc'",
     "db": "open dumping.sqlite3",
-    "icons": "node utils/extractAllIcons.js ; montage roms/*.png -geometry +8+8 -tile 6x sample-extracted-icons.png"
+    "icons": "node utils/extractAllIcons.js ; montage photos/roms/*.png -geometry +8+8 -tile 6x sample-extracted-icons.png"
   },
   "dependencies": {
     "express": "^4.17.1",
     "jimp": "^0.16.2",
-    "node-mcp23017": "^0.0.7"
+    "node-mcp23017": "^0.0.7",
+    "skmeans": "^0.11.3"
   }
 }
