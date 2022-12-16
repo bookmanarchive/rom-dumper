@@ -3,9 +3,11 @@ requires 0 "42 6F 6F 6B 6D 61 6E 31";
 section "Header" {
     goto 0x0
     ascii 8 "Magic number"
-
-    goto 11
+    bytes 3 "?? Flags ??"
     uint16 "Model#"
+    bytes 1 "??"
+    uint8 -hex "01"
+    uint8 -hex "00"
 
     goto 0x48
     uint32 "Bytesize U1"

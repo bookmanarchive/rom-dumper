@@ -45,10 +45,16 @@ BFE-2080_v1.0_U1.bin
 `);
 
 
-function displayBytes(file, fromOffset, toOffset) {
+function displayBytesHex(file, fromOffset, toOffset) {
     const fileData = getRomFile(file);
     console.log(`${file.split('_')[0]}\t${(fileData.subarray(fromOffset, toOffset).toString('hex').match(/.{1,2}/g))
         .join(' ').toUpperCase()
+        }`);
+}
+
+function displayBytesASCII(file, fromOffset, toOffset) {
+    const fileData = getRomFile(file);
+    console.log(`${file.split('_')[0]}\t${(fileData.subarray(fromOffset, toOffset).toString('ascii'))
         }`)
 }
 
@@ -56,7 +62,8 @@ function showComparisons(fileset, name) {
     console.log(`--- --- --- --- --- --- --- --- ${name}`);
 
     for (let f of fileset) {
-        displayBytes(f, 8, 11);
+        displayBytesHex(f, 0xC, 0xD);
+        displayBytesASCII(f, 0x8A, 0x96);
     }
 
 }
