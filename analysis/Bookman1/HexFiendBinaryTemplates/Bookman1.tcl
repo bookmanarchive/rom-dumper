@@ -4,6 +4,9 @@ section "Header" {
     goto 0x0
     ascii 8 "Magic number"
 
+    goto 11
+    uint16 "Model#"
+
     goto 0x48
     uint32 "Bytesize U1"
     uint32 "Bytesize U2"

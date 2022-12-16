@@ -12,6 +12,10 @@ const MAGIC_NUMBER = new Uint8Array([
     0x31    // 1
 ]);
 
+// Model code stored as an UInt16LE
+const MODEL_CODE = 0xB;
+const MODEL_CODE_SIZE = 2;
+
 // These UInt32LE values represent the total file sizes of the ROM banks U1, U2
 const OFFSET_ROM_U1_FILESIZE = 0x48;
 const ROM_U1_FILESIZE_SIZE = 4;        
@@ -32,9 +36,11 @@ const CARD_ICON_STRUCT_SIZE = 10; // bytes
 module.exports = {
     MAGIC_NUMBER,
 
+    MODEL_CODE,
+    MODEL_CODE_SIZE,
+
     OFFSET_ROM_U1_FILESIZE,
     ROM_U1_FILESIZE_SIZE,
-    
     OFFSET_ROM_U2_FILESIZE,
     ROM_U2_FILESIZE_SIZE,
     
