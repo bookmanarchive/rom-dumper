@@ -842,11 +842,6 @@ setprototypeof@1.1.1:
   resolved "https://registry.npmjs.org/setprototypeof/-/setprototypeof-1.1.1.tgz"
   integrity sha512-JvdAWfbXeIGaZ9cILp38HntZSFSo3mWg6xGcJJsd+d4aRMOqauag1C63dJfDw7OaMYwEbHMOxEZ1lqVRYP2OAw==
 
-skmeans@^0.11.3:
-  version "0.11.3"
-  resolved "https://registry.yarnpkg.com/skmeans/-/skmeans-0.11.3.tgz#6d4dafb8058520a792c10bae9d9b953a6b6379f4"
-  integrity sha512-nccEnlSeOMNAYM9ETMSq+m15u8g0KRCIvH2an/ROTx4Igmci/j3oYHBPGdAeGjhR7knAVoIIQwr/wy2dN/eKQA==
-
 "statuses@>= 1.5.0 < 2", statuses@~1.5.0:
   version "1.5.0"
   resolved "https://registry.npmjs.org/statuses/-/statuses-1.5.0.tgz"

@@ -8,10 +8,11 @@
     "db": "open dumping.sqlite3",
     "icons": "node utils/extractAllIcons.js ; montage photos/roms/*.png -geometry +8+8 -tile 6x sample-extracted-icons.png"
   },
+  "devDependencies": {
+    "jimp": "^0.16.2"
+  },
   "dependencies": {
     "express": "^4.17.1",
-    "jimp": "^0.16.2",
-    "node-mcp23017": "^0.0.7",
-    "skmeans": "^0.11.3"
+    "node-mcp23017": "^0.0.7"
   }
 }
