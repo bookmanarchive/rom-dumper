@@ -42,3 +42,4 @@
 - 2.5mm TRS to USB cable that came with a DMQ-1870 device is simply just a serial to USB adapter "LPB-01903-25A" (2022-12)
     - Breakout wires have been soldered to the serial end of this for further analysis with additional serial to USB adapters to capture the data
     - TX (green), RX (red), GND (black) breakouts
+    - Once serial message sequence is completely understood, attempt upload of Bookman1 ROM dumps so that binary analysis via poking (changing specific instructions in the ROM and observing changes) can begin!
