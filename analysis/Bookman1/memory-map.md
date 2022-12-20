@@ -28,6 +28,3 @@ I really think you should consider 65816. WDC still makes and sells them. You ca
 The 65816 also has variable instruction and operand size which makes disassembling difficult at times
 
 ```
-
-- https://www.reddit.com/user/duane11583
-- https://yavner.ca/resume.pdf
