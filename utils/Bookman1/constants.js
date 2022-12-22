@@ -30,6 +30,20 @@ const OFFSET_FUNCTION_KEY_3_NAME = 0xAE;
 const OFFSET_FUNCTION_KEY_4_NAME = 0xB0;
 
 // Images
+const IMAGE_DELIMITERS = {
+    // All images have max height 24 (Bookman1 native resolution)
+    SPRITE_8W: 0x01,    // size 8   x ?? images
+    SPRITE_16W: 0x02,   // size 16  x ?? images
+    SPRITE_24W: 0x03,   // size 24  x ?? images
+    SPRITE_32W: 0x04,   // size 32  x ?? images
+    SPRITE_40W: 0x05,   // size 40  x ?? images (more than 1, but first is always the card icon)
+    SPRITE_48W: 0x06,   // size 48  x ?? images
+    SPRITE_56W: 0x07,   // size 56  x ?? images,
+    SPRITE_64W: 0x08,   // size 64  x ??
+    SPRITE_72W: 0x09,   // size 72  x ??
+    SPRITE_128W: 0x10,  // size 128 x ??
+};
+
 const OFFSET_CARD_ICON_STRUCT = 0x7E;
 const CARD_ICON_STRUCT_SIZE = 10; // bytes
 
@@ -51,4 +65,6 @@ module.exports = {
     
     OFFSET_CARD_ICON_STRUCT,
     CARD_ICON_STRUCT_SIZE,
+
+    IMAGE_DELIMITERS,
 };

@@ -46,22 +46,24 @@ async function extractImage(w, h, offset, romFile, i) {
         finalImage.blit(scratchImage, x * 8, 0);
     }
 
-    const finalIconPath = extractionDirectory + ((romFile.substring(0, romFile.lastIndexOf('.')) + '.' + i.toString().padStart(3, '0') + '.png').split('/').pop());
+    const finalIconPath = extractionDirectory + ((romFile.substring(0, romFile.lastIndexOf('.')) + '-W' + w + '-' + i.toString().padStart(3, '0') + '.png').split('/').pop());
 
     await finalImage.writeAsync(finalIconPath);
 }
 
-const DELIMTERS = {
+const IMAGE_DELIMITERS = {
     // All images have max height 24 (Bookman1 native resolution)
-
-    FULLSCREEN_ANIMATION_FRAME: 0x10,
-    TALL_SPRITE: 0x02,  // small sized 16 x ?? images
-    WIDE_SPRITE: 0x03,  // small sized 24 x ?? images
-    XL_SPRITE: 0x04,    // sized 32 x ?? images
-    CARD_ICON: 0x05,    // sized 40 x 24 images (more than 1, but first is always the card icon)
-    XXL_SPRITE: 0x06,   // sized 48 x ?? images
-    XXXL_SPRITE: 0x07,  // sized 56 x ?? images
-}
+    SPRITE_8W: 0x01,    // size 8   x ?? images
+    SPRITE_16W: 0x02,   // size 16  x ?? images
+    SPRITE_24W: 0x03,   // size 24  x ?? images
+    SPRITE_32W: 0x04,   // size 32  x ?? images
+    SPRITE_40W: 0x05,   // size 40  x ?? images (more than 1, but first is always the card icon)
+    SPRITE_48W: 0x06,   // size 48  x ?? images
+    SPRITE_56W: 0x07,   // size 56  x ?? images,
+    SPRITE_64W: 0x08,   // size 64  x ??
+    SPRITE_72W: 0x09,   // size 72  x ??
+    SPRITE_128W: 0x10,  // size 128 x ??
+};
 
 async function extractImagesForROM(romFile, delimiterValue = 0x10) {
     const ROM_CONTENT = fs.readFileSync(romFile);
@@ -78,6 +80,7 @@ async function extractImagesForROM(romFile, delimiterValue = 0x10) {
 
         const isValid = (
             imageWidth > 2 &&
+            (imageWidth === delimiterValue << 3) &&
             nullbyte1 === 0 &&
             imageHeight > 2 &&
             nullbyte2 === 0 &&
@@ -99,9 +102,20 @@ async function extractImagesForROM(romFile, delimiterValue = 0x10) {
         nextImageEntryOffset = ROM_CONTENT.indexOf(IMAGE_DELIMITER, nextImageEntryOffset + IMAGE_DELIMITER.length);
         index++;
     }
+
+    return index;
 };
 
-const [_node, _script, _romFile = 'roms/BJP-2034_v1.0_U1.bin'] = process.argv;
+const [_node, _script, _romFile = 'roms/WGM-2037_v1.0_U1.bin'] = process.argv;
 
 execSync(`rm -f ${extractionDirectory}*.png`);
-extractImagesForROM(_romFile, 0x07);
+
+for (let w = 8; w < 0xFF; w += 8) {
+    console.log(`SPRITE_${w}W`);
+    try {
+        extractImagesForROM(_romFile, IMAGE_DELIMITERS[`SPRITE_${w}W`]);
+
+    } catch(e) {
+        console.trace(e);
+    }
+}
