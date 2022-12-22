@@ -70,10 +70,33 @@ So we can derive machine code for at least 2 of these routines:
     - `WGM-2037.reset.asm` = 1505 bytes from offset 29344
     - `WGM-2037.irq.asm` = 356 bytes from offset 30849
 
----
+
+## BJP-2034
+
+There seems to be some sort of string pointers starting at 0x2384. The string table holds 2 byte addresses in cells 4 bytes large and the order is reversed, i.e. last address is the first string.
+
+```
+Possible starting position at 0x2380
+
+All reverse ordering string arrays
+
+0x2384 for 4 string offsets
+0x23B3 for 4 string offsets
+0x23DE for 4 string offsets
+...
+
+Length:
+
+9072 bytes in this string array section altogether (0x7023) if starting at 0x2384
+9076 bytes                                         (0x7423) if starting at 0x2380
+```
+
+### Graphics
+
+Running through all the possible image struct delimiter values we can figure out the image formats stored in the previously found image struct.
+
 
 ## BQF-2025
 - Found a reference to `asm6502` within the ROM, likely this assembler from 1985!
     - At offset 0x
     - https://github.com/ptrrkssn/asm6502
-

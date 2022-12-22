@@ -3,3 +3,4 @@ node_modules
 dump.bookman.bin
 .DS_Store
 out.png
+tmp/*.png
