@@ -106,7 +106,7 @@ async function extractImagesForROM(romFile, delimiterValue = 0x10) {
     return index;
 };
 
-const [_node, _script, _romFile = 'roms/WGM-2037_v1.0_U1.bin'] = process.argv;
+const [_node, _script, _romFile = 'roms/COL-2010_v1.0_U2.raw.bin'] = process.argv;
 
 execSync(`rm -f ${extractionDirectory}*.png`);
 
