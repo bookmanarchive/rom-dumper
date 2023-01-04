@@ -1,5 +1,20 @@
 # Bookman 2 General Analysis notes / Findings
 
+- Bookman2 ROMs seem to have multiple header types within a single ROM
+     - One with the string `BOOKMAN card 01`
+     - Another possibly with the ROM content string as a header such as `BFQ-3033` (found on the U2 chip)
+
+## `BOOKMAN card 01` header bytes
+
+Assuming the header starts at that magic string, all these are offset from the start of that magic string:
+
+```
+
+0x16, 0x17 = content ROM model code stored (UInt16LE)
+             ex: BFQ-3033 --> value = 3033 
+             
+```
+
 ## BFQ-3033
 
 Within the U1 dump file, there seems to be a diagnostics app embedded within a chunk of memory. Searching for "Bookman1" will find this.
