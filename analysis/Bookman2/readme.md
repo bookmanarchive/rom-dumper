@@ -4,6 +4,8 @@
      - One with the string `BOOKMAN card 01`
      - Another possibly with the ROM content string as a header such as `BFQ-3033` (found on the U2 chip)
 
+- Bookman3 units can activate their **Factory Test** screen by holding down FN + CARD then pressing the POWER button to switch it on
+
 ## `BOOKMAN card 01` header bytes
 
 Assuming the header starts at that magic string, all these are offset from the start of that magic string:
