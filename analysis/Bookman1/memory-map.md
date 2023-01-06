@@ -3,8 +3,13 @@
 ```
 
     $8000 = ROM start
+    ????  = ROM end
 
 ```
+
+Bootstrapped loading
+- http://forum.6502.org/viewtopic.php?f=4&t=5411
+
 
 ### Notes from conversations
 

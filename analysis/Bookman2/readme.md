@@ -6,6 +6,31 @@
 
 - Bookman3 units can activate their **Factory Test** screen by holding down FN + CARD then pressing the POWER button to switch it on
 
+## Factory Test Menu findings
+
+ASIC Regs values
+
+```
+MED-1770
+
+
+CardCTL        Condition
+80             Blank BMC-2 card plugged in
+80             Card slots empty
+E2             2 x WGM-2037 cards plugged in
+C1             1 x WGM-2037 in slot 1
+A2             1 x WGM-2037 in slot 2
+
+
+MWD-1470
+
+CardCTL        Condition
+00             Card slot empty
+00             Blank BMC-2 card plugged in
+40             1 x WGM-2037 in slot 1
+
+```
+
 ## `BOOKMAN card 01` header bytes
 
 Assuming the header starts at that magic string, all these are offset from the start of that magic string:
