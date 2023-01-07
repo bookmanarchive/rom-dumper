@@ -12,6 +12,9 @@ const DIR_ROMS = 'roms';
         // Only try extracting from U1 roms (first memory bank)
         if (romFile.indexOf('_U1.bin') < 0) continue;
 
+        const MODEL_CODE = romFile.split('_')[0];
+        if(MODEL_CODE && MODEL_CODE.split('-')[1][0] !== '2') continue; // skip if not Bookman1
+
         try {
             const filePath = `${DIR_ROMS}/${romFile}`;
             

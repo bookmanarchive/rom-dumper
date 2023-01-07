@@ -5,7 +5,6 @@
      - Another possibly with the ROM content string as a header such as `BFQ-3033` (found on the U2 chip)
 
 - Bookman3 units can activate their **Factory Test** screen by holding down FN + CARD then pressing the POWER button to switch it on
-
 ## Factory Test Menu findings
 
 ASIC Regs values
@@ -30,6 +29,13 @@ CardCTL        Condition
 40             1 x WGM-2037 in slot 1
 
 ```
+
+Many Bookman2 ROMs have this Factory Test Menu embedded within the ROM. Bookman3 factory tests are slightly different.
+- Feature Test Menu is simply a submenu where these tests are located (e.g. MWS-1840)
+     - Audio
+     - Cable
+     - Loopback
+- These are broken out into the main menu in later units
 
 ## `BOOKMAN card 01` header bytes
 

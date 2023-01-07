@@ -14,4 +14,8 @@ See `utils/Bookman1` for programmatic descriptions / usages of RE findings.
 
 ## Temporary notes / Suspects
 
-Nothing here for now.
+Dumps of 2 different DBE-2020 cartridges yielded 2 different versions of the ROM (v1.0 from) and 
+- Need to try to compare the ROMs to examin similar regions in the same offsets
+  - https://stackoverflow.com/questions/746458/how-can-i-show-lines-in-common-reverse-diff
+  - https://stackoverflow.com/questions/8581090/how-to-do-the-opposite-of-diff
+- Similarly, this idea can be used to find common areas between other Bookman1 ROMs
