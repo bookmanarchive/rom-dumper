@@ -20,7 +20,7 @@ const DIR_ROMS = 'roms';
             
             await CardIcon.extract(filePath);
 
-            console.log(FunctionKeyName.extract(filePath));
+            // console.log(FunctionKeyName.extract(filePath));
             
         } catch (e) {
             erroredList.push(romFile);
