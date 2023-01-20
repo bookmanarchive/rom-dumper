@@ -18,7 +18,10 @@ app.post('/stop-dump', (req, res) => {
 app.post('/start-dump', (req, res) => {
     const { deviceROM, startOffset } = req.body;
     try {
-        startDump(parseInt(deviceROM.toString(), 10), startOffset);
+        startDump(
+            parseInt(deviceROM.toString(), 10),
+            parseInt(startOffset.toString(), 10)
+        );
         res.send('OK');
     } catch (e) {
         res.send(e);

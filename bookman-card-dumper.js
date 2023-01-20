@@ -84,7 +84,7 @@ const MAX_ADDRESS = ((1 << 21) - 1);
 // Keep things simple
 const filename = 'dump.bin';
 
-async function startDump(deviceROM = 1) {
+async function startDump(deviceROM = 1, startOffset = 0) {
 	if (isDumping) throw 'Already dumping!';
 
 	// writePin('BYTE#', 0);	// Enable single BYTE mode (DQ0 ... DQ7 only output pins)
@@ -92,7 +92,7 @@ async function startDump(deviceROM = 1) {
 
 	// writePin('WE#', 1);		// Disable Write Enable mode
 
-	console.log('Starting dump...');
+	console.log(`Starting dump from offset ${startOffset}...`);
 
 	isDumping = true;
 
@@ -103,11 +103,11 @@ async function startDump(deviceROM = 1) {
 	writePin('OE#', 0); // Enable output
 
 	// Overwrite previously named file
-	if(existsSync(filename)) {
+	if (existsSync(filename)) {
 		unlinkSync(filename);
 	}
 
-	for (addr = 0; addr <= MAX_ADDRESS; addr++) {
+	for (addr = startOffset; addr <= MAX_ADDRESS; addr++) {
 		if (!isDumping) {
 
 			writePin('CE#_U1', 1);
