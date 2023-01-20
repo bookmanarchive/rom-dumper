@@ -27,8 +27,13 @@ let startOffset = 0;
 function selectCustomROMStartOffset() {
     const optionEl = document.getElementById('customStartOffset');
 
+    if(document.querySelector(`[name="startOffset"]`).selectedIndex < 4) return;
+
     let value = prompt('Begin ROM dump from (dec "8192" or hex "$2000"):', '8192');
-    if (value.charAt(0) === '$') {
+
+    if(value == null || value.length === 0) {
+        return;
+    } else if (value.charAt(0) === '$') {
         value = parseInt(value.substring(1), 16);
     } else {
         value = parseInt(value, 10);
