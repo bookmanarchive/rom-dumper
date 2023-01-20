@@ -29,7 +29,7 @@ function selectCustomROMStartOffset() {
 
     if(document.querySelector(`[name="startOffset"]`).selectedIndex < 4) return;
 
-    let value = prompt('Begin ROM dump from (dec "8192" or hex "$2000"):', '8192');
+    let value = prompt('Begin ROM dump from (dec "8192" or hex "$2000"):', optionEl.value);
 
     if(value == null || value.length === 0) {
         return;
