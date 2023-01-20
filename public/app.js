@@ -22,14 +22,28 @@ let progressUpdateInterval;
 let hasStarted = false;
 
 let selectedChip = 1;
-let sleepTime = 1;
+let startOffset = 0;
+
+function selectCustomROMStartOffset() {
+    const optionEl = document.getElementById('customStartOffset');
+
+    let value = prompt('Begin ROM dump from (dec "8192" or hex "$2000"):', '8192');
+    if (value.charAt(0) === '$') {
+        value = parseInt(value.substring(1), 16);
+    } else {
+        value = parseInt(value, 10);
+    }
+
+    optionEl.value = value;
+    optionEl.innerHTML = `Custom ($${value.toString(16)} / ${value})`;
+}
 
 function startROMDump() {
     selectedChip = parseInt(document.querySelector(`[name="chip"]:checked`).value, 10);
-    sleepTime = parseInt(document.querySelector(`[name="sleepTime"]`).value, 10);
+    startOffset = parseInt(document.querySelector(`[name="startOffset"]`).value, 10);
 
     document.getElementById('progress').classList.remove('stopped');
-    callApi('/start-dump', { deviceROM: selectedChip, sleepTime });
+    callApi('/start-dump', { deviceROM: selectedChip, startOffset });
 
     clearInterval(progressUpdateInterval);
     progressUpdateInterval = setInterval(getROMDumpProgress, 3000);

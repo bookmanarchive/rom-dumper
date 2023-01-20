@@ -16,9 +16,9 @@ app.post('/stop-dump', (req, res) => {
 });
 
 app.post('/start-dump', (req, res) => {
-    const { deviceROM, sleepTime } = req.body;
+    const { deviceROM, startOffset } = req.body;
     try {
-        startDump(parseInt(deviceROM.toString(), 10), sleepTime);
+        startDump(parseInt(deviceROM.toString(), 10), startOffset);
         res.send('OK');
     } catch (e) {
         res.send(e);

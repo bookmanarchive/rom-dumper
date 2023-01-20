@@ -66,7 +66,15 @@
                     <label><input type="radio" value="2" name="chip">ROM chip 2 (U2)</label>
                 </fieldset><br>
                 <fieldset>
-                    <label><input type="number" value="1" name="sleepTime">ms read delay</label>
+                    <label>Dump from offset 
+                        <select name="startOffset" onchange="">
+                            <option value="0" selected>0</option>
+                            <option value="262144">$40000 (262,144)</option>
+                            <option value="524288">$80000 (524,288)</option>
+                            <option value="1048576">$100000 (1,048,576)</option>
+                            <option id="customStartOffset" value="_value_">Custom (?)</option>
+                        </select>
+                    </label>
                 </fieldset><br>
                 <button onclick="toggleStartStopDump()" id="toggleStartStopDumpButton">START dump (SPACEBAR)</button>
             </fieldset>

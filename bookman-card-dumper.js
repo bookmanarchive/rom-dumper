@@ -54,14 +54,8 @@ function setAddress(addrValue) {
 
 const DATA_PINS = ['DQ0', 'DQ1', 'DQ2', 'DQ3', 'DQ4', 'DQ5', 'DQ6', 'DQ7'];
 
-function sleep(ms) {
-	return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-async function getDataFromAddress(addr, sleepTime = 1) {
+async function getDataFromAddress(addr) {
 	setAddress(addr);
-
-	await sleep(sleepTime);
 
 	const pinValues = await (
 		Promise.all(DATA_PINS.map(readPin))
@@ -90,7 +84,7 @@ const MAX_ADDRESS = ((1 << 21) - 1);
 // Keep things simple
 const filename = 'dump.bin';
 
-async function startDump(deviceROM = 1, sleepTime) {
+async function startDump(deviceROM = 1) {
 	if (isDumping) throw 'Already dumping!';
 
 	// writePin('BYTE#', 0);	// Enable single BYTE mode (DQ0 ... DQ7 only output pins)
@@ -124,7 +118,7 @@ async function startDump(deviceROM = 1, sleepTime) {
 			return;
 		}
 
-		const data = await getDataFromAddress(addr, sleepTime);
+		const data = await getDataFromAddress(addr);
 
 		appendFileSync(filename, Buffer.from([data.byteValue]));
 	}
