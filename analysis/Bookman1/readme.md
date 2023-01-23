@@ -19,3 +19,8 @@ Dumps of 2 different DBE-2020 cartridges yielded 2 different versions of the ROM
   - https://stackoverflow.com/questions/746458/how-can-i-show-lines-in-common-reverse-diff
   - https://stackoverflow.com/questions/8581090/how-to-do-the-opposite-of-diff
 - Similarly, this idea can be used to find common areas between other Bookman1 ROMs
+
+- Header analysis, complete mapping of Bookman1 header should now be possible
+  - Compare MWD-2001 v1.0 and v1.1
+  - Compare others with same model code but different revision
+  - There are several bits yet unmapped, model code appears twice
