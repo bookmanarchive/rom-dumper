@@ -1,0 +1,54 @@
+* {
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+    font: 1em/1em courier;
+    font-family: monospace;
+}
+
+#l {
+    white-space: pre-line;
+    text-align: right;
+    background-color: #fff;
+    color: #000;
+}
+
+#m {
+    font-family: monospace;
+    white-space: pre;
+    height: 1.5em;
+    resize: none;
+    overflow: hidden;
+    border: none;
+    background-color: #ddd;
+    color: #444;
+    margin: 0 0.5em;
+}
+
+#r {
+    font-family: monospace;
+    white-space: pre;
+    background-color: #fff;
+    color: #000;
+}
+
+#filename {
+    color: blue;
+}
+
+#t {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+}
+
+.darkmode-layer,
+.darkmode-toggle {
+    z-index: 1000;
+}
+
+body .darkmode-toggle,
+body .darkmode-layer--button {
+    right: -16px;
+    bottom: -16px;
+}

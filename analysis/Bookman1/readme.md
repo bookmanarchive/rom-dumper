@@ -24,3 +24,9 @@ Dumps of 2 different DBE-2020 cartridges yielded 2 different versions of the ROM
   - Compare MWD-2001 v1.0 and v1.1
   - Compare others with same model code but different revision
   - There are several bits yet unmapped, model code appears twice
+
+- Analyze the WGM-2037 from the BDM free download file
+  - Encrypted but we have the payload + the key
+
+- Attempt a write of same sized ROM as WGM-2037 to the BMC-2 / BMC-4 cards
+  - Start to alter bytes within the sent ROM to peek/poke memory

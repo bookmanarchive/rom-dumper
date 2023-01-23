@@ -1,0 +1,21 @@
+<html>
+<!-- adapted from https://github.com/xem/hex -->
+<script src="darkmode.js"></script>
+<script src="index.js"></script>
+<link rel="stylesheet" href="index.css"/>
+<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1">
+<meta charset="ISO-8859-1">
+<body onload='loadFile(); new Darkmode().showWidget()' onscroll="onScroll()">
+    <table cellspacing=4 cellpadding=0 id=t>
+        <tr>
+            <th colspan="3" id="filename">No file loaded.</th>
+        </tr>
+        <tr>
+            <td id=l width=140></td>
+            <td><textarea spellcheck=false readonly id=m oninput='onInput(this)' cols=44></textarea></td>
+            <td width=160 id=r>.</td>
+        </tr>
+    </table>
+</body>
+
+</html>
