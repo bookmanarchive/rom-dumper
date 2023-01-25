@@ -37,7 +37,7 @@ Many Bookman2 ROMs have this Factory Test Menu embedded within the ROM. Bookman3
      - Loopback
 - These are broken out into the main menu in later units
 
-## `BOOKMAN card 01` header bytes
+## `BOOKMAN card 01` card header bytes
 
 Assuming the header starts at that magic string, all these are offset from the start of that magic string:
 
@@ -45,8 +45,14 @@ Assuming the header starts at that magic string, all these are offset from the s
 
 0x16, 0x17 = content ROM model code stored (UInt16LE)
              ex: BFQ-3033 --> value = 3033 
-             
+
+
 ```
+
+## Content header bytes
+
+The same `28 00 18 00 05 00` image metadata exists within the header.
+However the app icon seems to be exactly the 0x78 (120 bytes) directly before this structure
 
 ## BFQ-3033
 

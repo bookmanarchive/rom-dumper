@@ -7,8 +7,6 @@ const fs = require('fs');
 
 const Jimp = require('jimp');
 
-const { OFFSET_CARD_ICON_STRUCT, CARD_ICON_STRUCT_SIZE } = require('./constants');
-
 async function createNewImage(w, h) {
     return new Promise(resolve => {
         new Jimp(w, h, (err, image) => resolve(image));
@@ -22,29 +20,16 @@ async function createScratchImage(w, h) {
     });
 }
 
-function unpack(struct) {
-    /*
-        Struct layout
-
-        Hex:        28 00 18 00 05 00 XX XX XX XX
-        ByteOffset  0  1  2  3  4  5  6
-    */
-    return {
-        w: struct.readUInt8(0),
-        h: struct.readUInt8(2),
-        imageDataOffset: struct.readUInt32LE(6),
-    };
-}
-
 async function extract(romFile) {
-    // See `analysis.md` for the investigation
-
     const ROM_CONTENT = fs.readFileSync(romFile);
-    const structOffset = ROM_CONTENT.readUInt16LE(OFFSET_CARD_ICON_STRUCT);
+    const metadataOffset = ROM_CONTENT.indexOf('280018000500', 0, 'hex');
+    if (metadataOffset < 0) return;
 
-    const cardIconStruct = unpack(
-        ROM_CONTENT.subarray(structOffset, structOffset + CARD_ICON_STRUCT_SIZE)
-    );
+    const cardIconStruct = {
+        w: 0x28,
+        h: 0x18,
+        imageDataOffset: metadataOffset - 0x78
+    };
 
     execSync(`convert -endian LSB -size ${cardIconStruct.w}x${cardIconStruct.h}+${cardIconStruct.imageDataOffset} 'mono:${romFile}' out.png`);
 
