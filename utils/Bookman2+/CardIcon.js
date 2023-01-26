@@ -25,10 +25,21 @@ async function extract(romFile) {
     const metadataOffset = ROM_CONTENT.indexOf('280018000500', 0, 'hex');
     if (metadataOffset < 0) return;
 
+    // TODO: FIXME this doesn't always seem to give the correct offset?
+    // Have tried: looking within the same 64K block
+    // Have tried: reading the next 2 bytes but no avail
+
+    // >> Reading immediate 0x78 bytes ahead of struct, not quite correct?
+
+    // Do know that the 2 bytes after the metadata are the lower address of the icon
+    // let imageDataOffset = ROM_CONTENT.subarray(metadataOffset + 6).readInt16LE(0);
+    // imageDataOffset += metadataOffset & 0xFFFF0000;
+
     const cardIconStruct = {
         w: 0x28,
         h: 0x18,
-        imageDataOffset: metadataOffset - 0x78
+        imageDataOffset: metadataOffset - 0x78,
+        // imageDataOffset,
     };
 
     execSync(`convert -endian LSB -size ${cardIconStruct.w}x${cardIconStruct.h}+${cardIconStruct.imageDataOffset} 'mono:${romFile}' out.png`);

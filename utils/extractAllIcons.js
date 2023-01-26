@@ -39,9 +39,6 @@ const DIRS = {
         const MODEL_CODE = romFile.split('_')[0];
         if (!MODEL_CODE) continue;
 
-        const modelCodeFirstDigit = MODEL_CODE.split('-')[1][0];
-        if (modelCodeFirstDigit !== '3') continue;
-
         const filePath = `${DIRS.BOOKMAN2}/${romFile}`;
 
         try {
